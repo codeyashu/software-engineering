@@ -1,3 +1,5 @@
+# Python-primary roadmap (Rahul: Python-primary, Java-warm).
+# Refresher-to-intermediate depth — assumes some prior exposure, not zero.
 topics:
   - id: py-venv
     title: "Virtualenv & pip/uv project setup"
@@ -6,3 +8,101 @@ topics:
     priority: P1
     status: not-started
     prereqs: []
+  - id: py-syntax-core
+    title: "Core syntax refresher (control flow, functions, comprehensions)"
+    complexity: 1
+    durationHrs: 2
+    priority: P1
+    status: not-started
+    prereqs: [py-venv]
+  - id: py-data-structures
+    title: "Data structures (list/dict/set/tuple, when to use which)"
+    complexity: 2
+    durationHrs: 2
+    priority: P1
+    status: not-started
+    prereqs: [py-syntax-core]
+  - id: py-oop
+    title: "OOP (classes, dataclasses, protocols vs ABCs)"
+    complexity: 2
+    durationHrs: 3
+    priority: P1
+    status: not-started
+    prereqs: [py-data-structures]
+  - id: py-typing
+    title: "Typing (type hints, generics, mypy/pyright basics)"
+    complexity: 2
+    durationHrs: 2
+    priority: P1
+    status: not-started
+    prereqs: [py-oop]
+  - id: py-error-handling
+    title: "Error handling & context managers (try/except, with)"
+    complexity: 2
+    durationHrs: 1.5
+    priority: P1
+    status: not-started
+    prereqs: [py-syntax-core]
+  - id: py-async
+    title: "Async (asyncio, async/await, gather, task groups)"
+    complexity: 4
+    durationHrs: 4
+    priority: P1
+    status: not-started
+    prereqs: [py-error-handling]
+  - id: py-numpy
+    title: "NumPy basics (arrays, broadcasting, vectorized ops)"
+    complexity: 3
+    durationHrs: 3
+    priority: P1
+    status: not-started
+    prereqs: [py-data-structures]
+  - id: py-pandas
+    title: "Pandas basics (DataFrame ops, groupby, joins)"
+    complexity: 3
+    durationHrs: 3
+    priority: P1
+    status: not-started
+    prereqs: [py-numpy]
+  - id: py-notebooks
+    title: "Jupyter notebooks workflow (incl. papermill/nbconvert basics)"
+    complexity: 1
+    durationHrs: 1
+    priority: P1
+    status: not-started
+    prereqs: [py-venv]
+  - id: py-http-apis
+    title: "HTTP/APIs (requests/httpx, building a small FastAPI service)"
+    complexity: 3
+    durationHrs: 3
+    priority: P1
+    status: not-started
+    prereqs: [py-typing, py-async]
+  - id: py-pytest
+    title: "pytest (fixtures, parametrize, mocking)"
+    complexity: 2
+    durationHrs: 2
+    priority: P1
+    status: not-started
+    prereqs: [py-oop]
+  - id: py-packaging
+    title: "Packaging (pyproject.toml, publishing, uv/poetry)"
+    complexity: 2
+    durationHrs: 1.5
+    priority: P2
+    status: not-started
+    prereqs: [py-venv]
+  - id: py-cli-tooling
+    title: "CLI tooling (argparse/typer, building a small dev tool)"
+    complexity: 2
+    durationHrs: 2
+    priority: P2
+    status: not-started
+    prereqs: [py-typing]
+  - id: py-logging-config
+    title: "Logging & config management (structlog, pydantic-settings)"
+    complexity: 2
+    durationHrs: 1.5
+    priority: P2
+    status: not-started
+    prereqs: [py-oop]

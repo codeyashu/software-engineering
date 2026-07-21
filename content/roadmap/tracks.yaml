@@ -1,3 +1,9 @@
+# AI Engineer Curriculum — Final 2026 Edition
+# Park-list mapping note: the spec's "Park entirely unless a specific need
+# arises" list names B7, CE12, F5-6, G5-7, J5, K7-8. Track B (6 items) and
+# Track CE (11 items) have no 7th/12th item in the reproduced sublists, so
+# B7/CE12 are not applicable and nothing in those tracks is force-parked.
+# F5-6, G5(-7), J5, K7(-8) map onto real items below and are `status: parked`.
 tracks:
   - id: a
     title: "Track A — LLM Foundations"
@@ -11,3 +17,649 @@ tracks:
         priority: P1
         status: not-started
         prereqs: []
+      - id: embeddings
+        title: "Embeddings (cosine sim, vector clustering)"
+        complexity: 3
+        durationHrs: 3
+        priority: P1
+        status: not-started
+        prereqs: []
+      - id: hallucination
+        title: "Why hallucination is structural, not a bug"
+        complexity: 2
+        durationHrs: 1.5
+        priority: P1
+        status: not-started
+        prereqs: []
+      - id: tokenization
+        title: "Tokenization / BPE"
+        complexity: 3
+        durationHrs: 2
+        priority: P1
+        status: not-started
+        prereqs: []
+        videos:
+          - { label: "Karpathy — Let's build the GPT Tokenizer", url: "https://www.youtube.com/watch?v=zduSFxRajkE" }
+      - id: temperature
+        title: "Temperature / sampling params"
+        complexity: 2
+        durationHrs: 1.5
+        priority: P1
+        status: not-started
+        prereqs: []
+      - id: attention
+        title: "Attention / transformer mechanics"
+        complexity: 5
+        durationHrs: 5
+        priority: P1
+        status: not-started
+        prereqs: [tokenization]
+        videos:
+          - { label: "3Blue1Brown — Attention in transformers, visually explained", url: "https://www.youtube.com/watch?v=eMlx5fFNoYc" }
+          - { label: "Karpathy — Let's build GPT: from scratch, in code", url: "https://www.youtube.com/watch?v=kCc8FmEb1nY" }
+      - id: llm-build-e2e
+        title: "(optional, P3) Full LLM build end-to-end"
+        complexity: 5
+        durationHrs: 15
+        priority: P3
+        status: not-started
+        prereqs: [attention, embeddings]
+        docs:
+          - { label: "Raschka — Build a LLM from Scratch", url: "https://github.com/rasbt/LLMs-from-scratch" }
+
+  - id: b
+    title: "Track B — Prompting + Evaluation"
+    priority: P1
+    exit: "Build eval set, catch a prompt regression with a number."
+    subtopics:
+      - id: structured-prompting
+        title: "Structured prompting"
+        complexity: 2
+        durationHrs: 2
+        priority: P1
+        status: not-started
+        prereqs: []
+      - id: json-output
+        title: "Forcing structured/JSON output"
+        complexity: 2
+        durationHrs: 2
+        priority: P1
+        status: not-started
+        prereqs: [structured-prompting]
+      - id: eval-harness
+        title: "Eval harness with regression cases"
+        complexity: 3
+        durationHrs: 4
+        priority: P1
+        status: not-started
+        prereqs: [json-output]
+      - id: few-shot-cot
+        title: "Few-shot / chain-of-thought"
+        complexity: 2
+        durationHrs: 2
+        priority: P1
+        status: not-started
+        prereqs: []
+      - id: llm-as-judge
+        title: "LLM-as-judge scoring"
+        complexity: 3
+        durationHrs: 3
+        priority: P1
+        status: not-started
+        prereqs: [eval-harness]
+      - id: dspy
+        title: "(P3+) DSPy signatures/optimizers"
+        complexity: 4
+        durationHrs: 4
+        priority: P3
+        status: not-started
+        prereqs: [few-shot-cot]
+
+  - id: c
+    title: "Track C — Tool Calling + Typed Agents"
+    priority: P1
+    exit: "Ship typed agent, 2 tools, refuses bad output."
+    subtopics:
+      - id: tool-calling-basics
+        title: "Basic tool-calling mechanics"
+        complexity: 2
+        durationHrs: 2
+        priority: P1
+        status: not-started
+        prereqs: []
+      - id: tool-schema-design
+        title: "Tool schema/description design"
+        complexity: 3
+        durationHrs: 2
+        priority: P1
+        status: not-started
+        prereqs: [tool-calling-basics]
+      - id: typed-output-validation-retry
+        title: "Typed output + validation + retry"
+        complexity: 3
+        durationHrs: 3
+        priority: P1
+        status: not-started
+        prereqs: [tool-calling-basics]
+      - id: local-vs-frontier-ceiling
+        title: "Local vs frontier tool-calling ceiling"
+        complexity: 3
+        durationHrs: 2
+        priority: P1
+        status: not-started
+        prereqs: [tool-schema-design]
+      - id: multi-tool-routing
+        title: "Multi-tool routing"
+        complexity: 3
+        durationHrs: 3
+        priority: P1
+        status: not-started
+        prereqs: [tool-schema-design]
+      - id: reflection-planning-loops
+        title: "Reflection/planning loops"
+        complexity: 4
+        durationHrs: 4
+        priority: P1
+        status: not-started
+        prereqs: [multi-tool-routing]
+
+  - id: l
+    title: "Track L — Coding Agents & Agentic Practice"
+    priority: P1
+    exit: "Point to one real change an agent made, with a validation artifact, explain why trusted."
+    subtopics:
+      - id: run-cli-agent
+        title: "Run a CLI coding agent against a real repo end-to-end"
+        complexity: 2
+        durationHrs: 2
+        priority: P1
+        status: not-started
+        prereqs: []
+      - id: agent-harness-concept
+        title: "Understand \"agent harness\" concept (tools + skills + guardrails around a loop)"
+        complexity: 3
+        durationHrs: 2
+        priority: P1
+        status: not-started
+        prereqs: [run-cli-agent]
+      - id: eval-agent-output
+        title: "Evaluate agent output against its stated goal, not just presence of output"
+        complexity: 3
+        durationHrs: 2
+        priority: P1
+        status: not-started
+        prereqs: [run-cli-agent]
+      - id: target-evidence-habit
+        title: "Build a \"target + evidence\" habit: agent writes artifact + runs validation + attaches proof before marking done"
+        complexity: 3
+        durationHrs: 3
+        priority: P1
+        status: not-started
+        prereqs: [eval-agent-output]
+
+  - id: s
+    title: "Track S — Java / Spring Boot AI"
+    priority: P4
+    exit: "Ship a Spring AI app with a typed tool + memory + pgvector RAG + an MCP server exposing your tool, with auth."
+    subtopics:
+      - id: chat-client
+        title: "ChatClient — model-agnostic LLM calls (swap Ollama <-> frontier via config)"
+        complexity: 2
+        durationHrs: 2
+        priority: P4
+        status: not-started
+        prereqs: []
+      - id: tool-annotations
+        title: "Tool calling via @Tool annotations"
+        complexity: 3
+        durationHrs: 2
+        priority: P4
+        status: not-started
+        prereqs: [chat-client]
+      - id: structured-output-pojo
+        title: "Structured output (POJO binding, validation)"
+        complexity: 3
+        durationHrs: 2
+        priority: P4
+        status: not-started
+        prereqs: [chat-client]
+      - id: chat-memory
+        title: "ChatMemory — stateful conversation"
+        complexity: 3
+        durationHrs: 2
+        priority: P4
+        status: not-started
+        prereqs: [chat-client]
+      - id: vector-store-pgvector
+        title: "VectorStore abstraction (pgvector backend — fits Postgres)"
+        complexity: 4
+        durationHrs: 4
+        priority: P4
+        status: not-started
+        prereqs: [chat-client]
+      - id: advisors-api
+        title: "Advisors API (RAG, logging, guardrails as pluggable advisors)"
+        complexity: 4
+        durationHrs: 3
+        priority: P4
+        status: not-started
+        prereqs: [vector-store-pgvector]
+      - id: mcp-server-annotations
+        title: "MCP server via @McpTool annotations (spring-ai-starter-mcp-server-webmvc)"
+        complexity: 4
+        durationHrs: 4
+        priority: P4
+        status: not-started
+        prereqs: [tool-annotations]
+      - id: mcp-client-security
+        title: "MCP client + MCP Security (OAuth/RBAC)"
+        complexity: 4
+        durationHrs: 4
+        priority: P4
+        status: not-started
+        prereqs: [mcp-server-annotations]
+      - id: langchain4j-compare
+        title: "(compare) LangChain4j as the framework-agnostic alternative"
+        complexity: 3
+        durationHrs: 2
+        priority: P4
+        status: not-started
+        prereqs: [advisors-api]
+
+  - id: ce
+    title: "Track CE — Context Engineering (merged RAG + Memory)"
+    priority: P1
+    exit: "Build 2-3 context-engineering variants on 1 corpus, RAGAS numbers to say which wins, articulate what was deliberately excluded from context and why."
+    subtopics:
+      - id: chunking-strategies
+        title: "Chunking strategies"
+        complexity: 2
+        durationHrs: 2
+        priority: P1
+        status: not-started
+        prereqs: []
+      - id: vector-store-basics
+        title: "Vector store basics"
+        complexity: 2
+        durationHrs: 2
+        priority: P1
+        status: not-started
+        prereqs: []
+      - id: hybrid-retrieval-rerank
+        title: "Hybrid retrieval (BM25 + dense) + reranking"
+        complexity: 4
+        durationHrs: 4
+        priority: P1
+        status: not-started
+        prereqs: [chunking-strategies, vector-store-basics]
+      - id: ragas-eval
+        title: "RAGAS-style eval (faithfulness, recall)"
+        complexity: 3
+        durationHrs: 3
+        priority: P1
+        status: not-started
+        prereqs: [hybrid-retrieval-rerank]
+      - id: context-assembly-hygiene
+        title: "Context assembly / instruction hygiene (what's let into context, what's excluded, why)"
+        complexity: 3
+        durationHrs: 2
+        priority: P1
+        status: not-started
+        prereqs: []
+      - id: short-term-memory-compaction
+        title: "Short-term memory / compaction under token limits"
+        complexity: 3
+        durationHrs: 2
+        priority: P1
+        status: not-started
+        prereqs: [ctx-window]
+      - id: long-term-memory
+        title: "Long-term memory (cross-session recall)"
+        complexity: 3
+        durationHrs: 3
+        priority: P1
+        status: not-started
+        prereqs: [vector-store-basics]
+      - id: memory-taxonomy
+        title: "Memory taxonomy (facts/preferences/entities/episodes/procedures)"
+        complexity: 2
+        durationHrs: 1.5
+        priority: P1
+        status: not-started
+        prereqs: [long-term-memory]
+      - id: query-rewrite-decompose
+        title: "(P2+) Query rewrite/decompose, contextual retrieval"
+        complexity: 3
+        durationHrs: 3
+        priority: P2
+        status: not-started
+        prereqs: [hybrid-retrieval-rerank]
+      - id: graphrag-raptor-selfrag-agentic
+        title: "(P3) GraphRAG / RAPTOR / Self-RAG / agentic RAG — pick one based on actual query shape"
+        complexity: 5
+        durationHrs: 6
+        priority: P3
+        status: not-started
+        prereqs: [ragas-eval]
+      - id: retrieval-access-control
+        title: "(P2) Retrieval access control (who can retrieve what)"
+        complexity: 3
+        durationHrs: 2
+        priority: P2
+        status: not-started
+        prereqs: [vector-store-basics]
+
+  - id: f
+    title: "Track F — Orchestration + Framework Selection"
+    priority: P2
+    exit: "Same agent in 2 frameworks + written tradeoff ADR; eval trajectory, not just output."
+    subtopics:
+      - id: raw-agent-loop
+        title: "Raw agent loop (no framework) first"
+        complexity: 3
+        durationHrs: 3
+        priority: P2
+        status: not-started
+        prereqs: [tool-calling-basics]
+      - id: graph-state-nodes-edges
+        title: "Graph-based state/nodes/edges"
+        complexity: 4
+        durationHrs: 3
+        priority: P2
+        status: not-started
+        prereqs: [raw-agent-loop]
+      - id: persistence-checkpoint-resume
+        title: "Persistence / checkpoint / resume"
+        complexity: 4
+        durationHrs: 3
+        priority: P2
+        status: not-started
+        prereqs: [graph-state-nodes-edges]
+      - id: human-in-loop-gating
+        title: "Human-in-the-loop gating"
+        complexity: 3
+        durationHrs: 2
+        priority: P2
+        status: not-started
+        prereqs: [graph-state-nodes-edges]
+      # F5-6: parked "until multi-agent need" per spec's park list
+      - id: multi-agent-supervisor
+        title: "Multi-agent supervisor pattern"
+        complexity: 4
+        durationHrs: 4
+        priority: P3
+        status: parked
+        prereqs: [persistence-checkpoint-resume]
+      - id: agent-trajectory-eval
+        title: "Agent trajectory eval (not just output)"
+        complexity: 4
+        durationHrs: 3
+        priority: P3
+        status: parked
+        prereqs: [raw-agent-loop]
+      - id: framework-comparison
+        title: "Framework comparison, written tradeoff"
+        complexity: 3
+        durationHrs: 4
+        priority: P2
+        status: not-started
+        prereqs: [graph-state-nodes-edges]
+        docs:
+          - { label: "LangGraph", url: "https://langchain-ai.github.io/langgraph/" }
+          - { label: "Pydantic AI", url: "https://ai.pydantic.dev/" }
+          - { label: "Google ADK 2.0", url: "https://google.github.io/adk-docs/" }
+          - { label: "CrewAI", url: "https://docs.crewai.com/" }
+          - { label: "OpenAI Agents SDK", url: "https://openai.github.io/openai-agents-python/" }
+          - { label: "AWS Strands", url: "https://strandsagents.com/" }
+
+  - id: g
+    title: "Track G — Interop Protocols: MCP / A2A / AG-UI"
+    priority: P1
+    exit: "Build + call an MCP server exposing your own tool, with auth."
+    subtopics:
+      - id: mcp-server-build
+        title: "Build 1 MCP server exposing a real tool"
+        complexity: 3
+        durationHrs: 3
+        priority: P1
+        status: not-started
+        prereqs: [tool-calling-basics]
+      - id: mcp-client-build
+        title: "Build an MCP client"
+        complexity: 3
+        durationHrs: 2
+        priority: P1
+        status: not-started
+        prereqs: [mcp-server-build]
+      - id: mcp-auth
+        title: "Add MCP auth (OAuth/RBAC) — expected in production now, not optional"
+        complexity: 4
+        durationHrs: 3
+        priority: P1
+        status: not-started
+        prereqs: [mcp-server-build]
+      - id: a2a-vs-mcp
+        title: "Understand A2A vs MCP (agent-to-agent vs agent-to-tool — complementary, not competing)"
+        complexity: 2
+        durationHrs: 1.5
+        priority: P2
+        status: not-started
+        prereqs: [mcp-server-build]
+      # G5(-7): explicit "park unless building agent-facing UI" in spec
+      - id: agui-a2ui
+        title: "(P4) AG-UI / A2UI generative UI — park unless building agent-facing UI"
+        complexity: 4
+        durationHrs: 3
+        priority: P4
+        status: parked
+        prereqs: [mcp-client-build]
+
+  - id: h
+    title: "Track H — Production, Scale, Security"
+    priority: P2
+    exit: "Trace a run, survive an injection test, hit a cost budget, write an ADR."
+    subtopics:
+      - id: tracing-observability
+        title: "Tracing/observability on a full run"
+        complexity: 3
+        durationHrs: 3
+        priority: P2
+        status: not-started
+        prereqs: [raw-agent-loop]
+      - id: injection-test-guardrails
+        title: "Injection test survival + guardrails"
+        complexity: 4
+        durationHrs: 3
+        priority: P2
+        status: not-started
+        prereqs: [tool-schema-design]
+      - id: cost-latency
+        title: "Cost + latency (caching, routing)"
+        complexity: 3
+        durationHrs: 2
+        priority: P2
+        status: not-started
+        prereqs: []
+      - id: prompt-agent-versioning
+        title: "Prompt/agent versioning"
+        complexity: 2
+        durationHrs: 2
+        priority: P2
+        status: not-started
+        prereqs: []
+      - id: adr-discipline
+        title: "ADR discipline — one per major architecture choice"
+        complexity: 2
+        durationHrs: 1
+        priority: P2
+        status: not-started
+        prereqs: []
+      - id: retrieval-access-control-rowlevel
+        title: "Retrieval access control (row/user-level)"
+        complexity: 4
+        durationHrs: 3
+        priority: P2
+        status: not-started
+        prereqs: [retrieval-access-control]
+      - id: pii-output-filtering
+        title: "PII/output filtering + leakage test"
+        complexity: 3
+        durationHrs: 2
+        priority: P2
+        status: not-started
+        prereqs: []
+      - id: agent-permission-boundaries
+        title: "Agent permission boundaries (least privilege)"
+        complexity: 3
+        durationHrs: 2
+        priority: P2
+        status: not-started
+        prereqs: [tool-schema-design]
+      - id: supply-chain-test
+        title: "Supply-chain test: poisoned doc/tool injection"
+        complexity: 4
+        durationHrs: 3
+        priority: P3
+        status: not-started
+        prereqs: [injection-test-guardrails]
+
+  - id: i
+    title: "Track I — Data / Dataset Engineering"
+    priority: P1
+    exit: "Turn a messy doc set into a clean indexed corpus + gold eval set."
+    subtopics:
+      - id: corpus-hygiene
+        title: "Corpus hygiene (clean garbage in -> measure lift)"
+        complexity: 2
+        durationHrs: 2
+        priority: P1
+        status: not-started
+        prereqs: []
+      - id: doc-etl-ingestion
+        title: "Doc ETL/ingestion pipeline"
+        complexity: 3
+        durationHrs: 3
+        priority: P1
+        status: not-started
+        prereqs: [corpus-hygiene]
+      - id: gold-eval-set
+        title: "Gold eval-set construction"
+        complexity: 3
+        durationHrs: 3
+        priority: P1
+        status: not-started
+        prereqs: [doc-etl-ingestion]
+      - id: synthetic-data-gen
+        title: "Synthetic data generation + validation"
+        complexity: 3
+        durationHrs: 3
+        priority: P2
+        status: not-started
+        prereqs: [gold-eval-set]
+      - id: data-quality-metrics
+        title: "Data quality metrics (dedup, coverage, noise)"
+        complexity: 3
+        durationHrs: 2
+        priority: P2
+        status: not-started
+        prereqs: [doc-etl-ingestion]
+
+  - id: j
+    title: "Track J — Model Adaptation: Prompt vs RAG vs Finetune"
+    priority: P2
+    exit: "Write the prompt-vs-RAG-vs-finetune decision for a given constraint."
+    subtopics:
+      - id: decision-framework-prompt-rag-finetune
+        title: "Written decision framework: when each approach wins"
+        complexity: 3
+        durationHrs: 2
+        priority: P2
+        status: not-started
+        prereqs: []
+      - id: reasoning-models-test-time-compute
+        title: "Reasoning models / test-time compute tradeoffs"
+        complexity: 3
+        durationHrs: 2
+        priority: P2
+        status: not-started
+        prereqs: []
+      - id: lora-qlora-peft-concept
+        title: "LoRA/QLoRA/PEFT concept (know cost/when, don't do yet)"
+        complexity: 3
+        durationHrs: 2
+        priority: P3
+        status: not-started
+        prereqs: []
+      - id: hands-on-finetune
+        title: "(P4) Hands-on finetune of a small model"
+        complexity: 5
+        durationHrs: 8
+        priority: P4
+        status: not-started
+        prereqs: [lora-qlora-peft-concept]
+      # J5: explicit park entry in spec's park list
+      - id: distillation-quantization
+        title: "(P4) Distillation/quantization tradeoffs"
+        complexity: 4
+        durationHrs: 3
+        priority: P4
+        status: parked
+        prereqs: [lora-qlora-peft-concept]
+
+  - id: k
+    title: "Track K — Multimodal: Image / Document / Audio"
+    priority: P2
+    exit: "Scan/image/audio -> structured validated output via a pipeline."
+    subtopics:
+      - id: document-ai
+        title: "Document AI (PDF/scan -> structured JSON)"
+        complexity: 3
+        durationHrs: 3
+        priority: P2
+        status: not-started
+        prereqs: [json-output]
+      - id: ocr-vs-vision-llm
+        title: "OCR pipeline vs. feeding page-image directly to a vision model"
+        complexity: 3
+        durationHrs: 2
+        priority: P2
+        status: not-started
+        prereqs: [document-ai]
+      - id: vision-llm-basics
+        title: "Vision LLM basics"
+        complexity: 2
+        durationHrs: 2
+        priority: P2
+        status: not-started
+        prereqs: []
+      - id: asr-audio-to-text
+        title: "Audio -> text (ASR)"
+        complexity: 2
+        durationHrs: 2
+        priority: P3
+        status: not-started
+        prereqs: []
+      - id: multimodal-rag
+        title: "Multimodal RAG (retrieve across image + text)"
+        complexity: 4
+        durationHrs: 4
+        priority: P3
+        status: not-started
+        prereqs: [vision-llm-basics, hybrid-retrieval-rerank]
+      # K7(-8): spec's park list names "K7-8"; K has 7 items so both P4
+      # entries (doc/audio pipelines + TTS) are folded into the single
+      # remaining slot and parked together.
+      - id: doc-audio-agent-pipelines
+        title: "(P4) Doc->agent and audio->action pipelines"
+        complexity: 4
+        durationHrs: 3
+        priority: P4
+        status: parked
+        prereqs: [document-ai, asr-audio-to-text]
+      - id: tts-voice-agents
+        title: "(P4) Text->speech / voice agents"
+        complexity: 3
+        durationHrs: 3
+        priority: P4
+        status: parked
+        prereqs: [asr-audio-to-text]
