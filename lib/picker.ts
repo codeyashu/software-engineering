@@ -3,11 +3,11 @@ import { ProgressState } from './progress';
 
 const PRANK: Record<string, number> = { P1: 1, P2: 2, P3: 3, P4: 4, P5: 5 };
 
-export function pickToday(
-  topics: RoadmapTopic[],
+export function pickToday<T extends RoadmapTopic>(
+  topics: T[],
   progress: ProgressState,
   opts: { count: number; recentIds: string[] },
-): RoadmapTopic[] {
+): T[] {
   const done = (id: string) => progress[id] === 'done';
   return topics
     .filter((t) => t.status !== 'parked' && progress[t.id] !== 'done')
