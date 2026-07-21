@@ -5,7 +5,7 @@ import matter from 'gray-matter';
 import { z } from 'zod';
 import {
   TracksFileSchema,
-  PythonRoadmapFileSchema,
+  TopicsFileSchema,
   QAFileSchema,
   ResourcesFileSchema,
   ProjectsFileSchema,
@@ -27,7 +27,13 @@ export const loadTracks = (): TrackMeta[] =>
   loadYaml('roadmap/tracks.yaml', TracksFileSchema).tracks;
 
 export const loadPythonRoadmap = (): RoadmapTopic[] =>
-  loadYaml('roadmap/python.yaml', PythonRoadmapFileSchema).topics;
+  loadYaml('roadmap/python.yaml', TopicsFileSchema).topics;
+
+export const loadSystemDesignRoadmap = (): RoadmapTopic[] =>
+  loadYaml('roadmap/system-design.yaml', TopicsFileSchema).topics;
+
+export const loadDbRoadmap = (): RoadmapTopic[] =>
+  loadYaml('roadmap/db.yaml', TopicsFileSchema).topics;
 
 export const trackSlugs = (): string[] =>
   readdirSync(join(CONTENT, 'tracks'), { withFileTypes: true })

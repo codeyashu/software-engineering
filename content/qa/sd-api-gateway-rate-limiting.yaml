@@ -1,0 +1,97 @@
+items:
+  - id: sd-gw-1
+    question: "Rate limiting and circuit breaking are often conflated. What problem does each actually solve?"
+    answer: >
+      Rate limiting protects a backend from a specific client sending too much
+      traffic — it's about fairness/abuse prevention, enforced per key (API key, user,
+      IP). Circuit breaking protects a caller from a backend that's already
+      unhealthy — it's about failing fast instead of piling up retries against
+      something that isn't going to answer, and preventing that pile-up from cascading
+      into the caller's own resource exhaustion.
+    difficulty: 2
+    tags: [sd, api-gateway, rate-limiting]
+  - id: sd-gw-2
+    question: "Why is token bucket the industry-default rate-limiting algorithm over a naive fixed-window counter?"
+    answer: >
+      Token bucket allows short legitimate bursts up to bucket capacity while still
+      enforcing an average rate over time via a fixed refill rate — it matches real
+      traffic shape better than a hard per-second cap. A naive fixed-window counter has
+      a known boundary problem: roughly double the intended rate can slip through right
+      at a window edge (a burst at the end of window N, another right at the start of
+      N+1). Both Stripe and AWS API Gateway use token bucket for exactly this reason.
+    difficulty: 3
+    tags: [sd, api-gateway, algorithms]
+  - id: sd-gw-3
+    question: "Sliding window log vs sliding window counter — what's the actual tradeoff?"
+    answer: >
+      Sliding window log stores every individual request timestamp within the window,
+      giving exact precision but costing memory proportional to request volume within
+      the window. Sliding window counter buckets counts (e.g. per-second buckets)
+      and interpolates across the window boundary, trading a small amount of precision
+      for dramatically lower memory use — the standard choice when you don't need
+      exact-request-level accuracy.
+    difficulty: 4
+    tags: [sd, api-gateway, rate-limiting]
+  - id: sd-gw-4
+    question: "A circuit breaker just went from open to half-open and immediately re-trips. What happened and how do you prevent it?"
+    answer: >
+      All waiting callers sent their next retry at the exact moment the breaker
+      opened its half-open probe window, so the 'trickle of test traffic' was actually
+      a synchronized burst that re-tripped the breaker instantly — a thundering herd on
+      breaker recovery. Prevent it with jittered backoff on the caller side so retries
+      don't synchronize, or by having only a single canary request probe the backend
+      during half-open instead of allowing every waiting caller through.
+    difficulty: 4
+    tags: [sd, api-gateway, circuit-breaker]
+  - id: sd-gw-5
+    question: "Why can a rate limiter that only caps requests/sec still fail to protect a shared backend, and what pattern closes that gap?"
+    answer: >
+      A pure requests/sec cap says nothing about how long each request holds a
+      resource — a rate-limited-but-slow client can still exhaust a shared connection
+      or thread pool while staying under its rate limit, starving every other tenant
+      behind the same gateway. Bulkheads close this gap by partitioning resources
+      (thread pools, connection pools) per downstream dependency or tenant, so one
+      slow consumer's resource usage is capped independently of its request rate.
+    difficulty: 4
+    tags: [sd, api-gateway, bulkhead]
+  - id: sd-gw-6
+    question: "Why does distributed rate limiting typically depend on Redis (or similar), and what does that dependency cost you?"
+    answer: >
+      Multiple gateway instances need a shared view of a client's current usage to
+      enforce one limit consistently across all of them — in-memory per-instance
+      counters would let a client get N times the intended limit by spreading requests
+      across N gateway instances. Redis (or similar) provides fast, shared, in-memory
+      state for this. The cost: the limiter now has a dependency of its own — if Redis
+      is under load or partitioned, limiter accuracy degrades exactly when traffic
+      (and the need for accurate limiting) is highest, so it needs the same
+      availability bar as what it's protecting.
+    difficulty: 4
+    tags: [sd, api-gateway, distributed-systems]
+  - id: sd-gw-7
+    question: "What should an API gateway explicitly NOT own, and why does violating this become an architecture problem later?"
+    answer: >
+      An API gateway should own cross-cutting concerns — routing/aggregation,
+      authn/authz enforcement, rate limiting, edge observability — but not business
+      logic. If domain decisions creep into the gateway (e.g. pricing rules, workflow
+      branching), it becomes a second, harder-to-test copy of the service it was meant
+      to decouple traffic from, and every service behind it now has two places
+      (gateway + service) where the same business rule might diverge.
+    difficulty: 3
+    tags: [sd, api-gateway, architecture]
+  - id: sd-gw-8
+    question: "On call: one tenant's traffic is under its rate limit, but every other tenant behind the same gateway is seeing timeouts. What's your diagnosis path and fix?"
+    answer: >
+      A per-request-count rate limit doesn't cap resource-holding time, so a tenant
+      can stay under its requests/sec cap while its requests are individually slow
+      (e.g. hitting a degraded downstream) and still exhaust a shared connection or
+      thread pool that every tenant draws from — classic noisy-neighbor without
+      resource isolation. Diagnose by checking per-tenant in-flight request duration
+      and shared-pool saturation (not just request counts) during the incident
+      window; the guilty tenant will show normal rate but abnormal latency/hold
+      time. Fix: add bulkheads — per-tenant or per-dependency connection/thread pool
+      partitions — so one tenant's slow requests can only exhaust its own
+      partition, plus a concurrent-in-flight-request cap per tenant (as Stripe runs
+      alongside its per-second limiter) to catch exactly this pattern that a pure
+      rate limit misses.
+    difficulty: 5
+    tags: [sd, api-gateway, incident, bulkhead]

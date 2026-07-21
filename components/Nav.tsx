@@ -8,6 +8,8 @@ const LINKS = [
   { href: '/tracks', label: 'Tracks' },
   { href: '/roadmap', label: 'Roadmap' },
   { href: '/roadmap/python', label: 'Python' },
+  { href: '/roadmap/system-design', label: 'System Design Roadmap' },
+  { href: '/roadmap/db', label: 'Database Roadmap' },
   { href: '/qa', label: 'Q&A' },
   { href: '/resources', label: 'Resources' },
   { href: '/concepts', label: 'Concepts' },

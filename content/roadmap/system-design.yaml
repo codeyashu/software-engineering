@@ -1,0 +1,32 @@
+# System-design deep-dive roadmap. One entry per content/system-design/<slug>/index.mdx
+# doc — mirrors the shape of roadmap/python.yaml so this section gets its own
+# checklist/progress view (RoadmapView), separate from the AI-curriculum tracks.
+topics:
+  - id: kafka
+    title: "Kafka (commit log, partitions, replication, exactly-once scope)"
+    complexity: 4
+    durationHrs: 2
+    priority: P2
+    status: not-started
+    prereqs: []
+  - id: load-balancing
+    title: "Load balancing & service discovery"
+    complexity: 3
+    durationHrs: 1.5
+    priority: P2
+    status: not-started
+    prereqs: []
+  - id: caching-strategies
+    title: "Caching strategies (cache-aside/write-through/behind, invalidation, stampede)"
+    complexity: 3
+    durationHrs: 1.5
+    priority: P2
+    status: not-started
+    prereqs: []
+  - id: api-gateway-rate-limiting
+    title: "API gateway & rate limiting (token bucket, circuit breakers, bulkheads)"
+    complexity: 3
+    durationHrs: 1.5
+    priority: P2
+    status: not-started
+    prereqs: [load-balancing]

@@ -1,0 +1,103 @@
+items:
+  - id: sd-cache-1
+    question: "Cache-aside vs write-through — when would you pick write-through despite its extra write latency?"
+    answer: >
+      Cache-aside only populates the cache on a read miss, so anything written but
+      never yet read can be stale in the cache until the next read triggers a refill
+      — fine for read-heavy, tolerant workloads. Write-through updates cache and
+      database synchronously on every write, so the cache is never behind for data
+      that's actually been written since the cache was warm. Pick it when read-after-write
+      consistency matters more than shaving write latency, e.g. a profile field a user
+      just edited and expects to see immediately.
+    difficulty: 3
+    tags: [sd, caching, strategies]
+  - id: sd-cache-2
+    question: "What is cache stampede, concretely, and name two independent mitigations."
+    answer: >
+      Cache stampede (thundering herd) happens when a popular key expires or a cache
+      restarts cold, and many concurrent requests all miss simultaneously and all hit
+      the database for the same row at once — Facebook's own data showed a single
+      mistimed key expiration spiking DB query load roughly 13x (1,300 to 17,000
+      qps). Mitigations: (1) request coalescing/single-flight locking, where only one
+      request repopulates the cache and the rest wait on that result instead of each
+      querying the DB independently; (2) staggered TTLs with jitter, so a batch of
+      keys set at the same time don't all expire in lockstep.
+    difficulty: 4
+    tags: [sd, caching, failure-modes]
+  - id: sd-cache-3
+    question: "Why is write-behind (write-back) caching risky, and what kind of data should never use it?"
+    answer: >
+      Write-behind acknowledges a write to the client as soon as it lands in the
+      cache, then flushes to the database asynchronously. If the cache process crashes
+      before that flush completes, an acknowledged write is permanently lost — the
+      durability boundary has effectively moved from the database to the cache. Data
+      where 'acknowledged' must mean 'durable' (financial transactions, anything with
+      a compliance/audit requirement) should never use write-behind without an
+      additional durable write-ahead log backing it.
+    difficulty: 3
+    tags: [sd, caching, write-behind]
+  - id: sd-cache-4
+    question: "TTL-based invalidation vs event-driven invalidation vs versioned keys — what failure mode does each solve, and what does each introduce?"
+    answer: >
+      TTL bounds staleness to a fixed window but keys set together tend to expire
+      together, seeding stampedes. Event-driven invalidation (pub/sub on writes) fixes
+      the correctness gap — the cache is corrected the instant the source changes — but
+      adds a message bus and ordering-guarantee dependency to the system. Versioned
+      keys (embedding a version/content-hash in the key) sidestep race conditions in
+      explicit delete/invalidate calls entirely, since a write just creates a new key
+      rather than mutating an old one, at the cost of extra cache memory for versions
+      still in flight.
+    difficulty: 4
+    tags: [sd, caching, invalidation]
+  - id: sd-cache-5
+    question: "A single extremely popular key is overwhelming one cache node even though the cluster has spare capacity overall. Why doesn't 'add more nodes' fix this, and what does?"
+    answer: >
+      This is hot-key contention — the problem is concentrated on the one
+      node/partition that owns that specific key, not a lack of aggregate cluster
+      capacity, so adding generic capacity elsewhere doesn't touch the bottleneck.
+      Fixing it requires replicating or specifically sharding that hot key across
+      multiple nodes (as systems like Netflix EVCache do for hot data) so reads for it
+      can be spread, rather than scaling the cluster uniformly.
+    difficulty: 4
+    tags: [sd, caching, hot-key]
+  - id: sd-cache-6
+    question: "Why is caching the wrong tool for data with a strict read-your-own-write consistency requirement, like an account balance?"
+    answer: >
+      Every caching strategy short of strict write-through-with-synchronous-invalidation
+      introduces a staleness window between a write to the source of truth and the
+      cache reflecting it. For data where that window is a correctness violation (a
+      balance a user just changed, an inventory count at the moment of purchase), the
+      right move is either to read straight from the source of truth for that path, or
+      to use a strategy that explicitly closes the window (write-through, or
+      versioned/optimistic reads) rather than defaulting to cache-aside and treating
+      staleness as acceptable.
+    difficulty: 3
+    tags: [sd, caching, consistency]
+  - id: sd-cache-7
+    question: "Where does CDN edge caching fit relative to an app-tier distributed cache (Redis/Memcached) and a local in-process cache — and why use all three rather than just one?"
+    answer: >
+      They sit at different distances from the user with different tradeoffs: CDN edge
+      cache is closest to the user, cuts network latency and origin load for
+      cacheable/static content, invalidated via TTL/headers (Cache-Control, ETag). The
+      distributed cache sits in front of the database for app-tier reads shared across
+      all instances. The local in-process cache is fastest but least consistent —
+      useful only for data that's cheap to be briefly wrong about (e.g. feature flags,
+      rarely-changing config). Using all three lets each layer absorb the load it's
+      best suited for instead of forcing one tier to do everything.
+    difficulty: 3
+    tags: [sd, caching, architecture]
+  - id: sd-cache-8
+    question: "On call: DB CPU spikes to 100% for ~90 seconds every day at the same time, correlating with a batch job that bulk-invalidates a large key set. Diagnose and fix without just 'add more DB capacity'."
+    answer: >
+      This is a scheduled-stampede variant: the batch job invalidates (or lets expire
+      via matching TTLs) a large cohort of keys simultaneously, so the next wave of
+      reads for all of them misses at once and floods the DB with duplicate queries
+      for data that's about to be re-cached anyway. Confirm by correlating DB query
+      spike timestamps with the batch job's invalidation timestamps and checking for
+      duplicate queries for the same keys within the spike window. Fix: request
+      coalescing/single-flight locking so concurrent misses for the same key collapse
+      into one DB query with the rest waiting on its result, plus staggering the
+      batch job's invalidations with jitter instead of one atomic sweep, so the
+      re-fill load spreads over time instead of landing in one 90-second window.
+    difficulty: 5
+    tags: [sd, caching, incident, stampede]

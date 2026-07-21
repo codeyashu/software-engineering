@@ -7,3 +7,36 @@ items:
   - { label: "CrewAI docs", url: "https://docs.crewai.com/", kind: doc, tags: [f, multi-agent] }
   - { label: "OpenAI Agents SDK", url: "https://openai.github.io/openai-agents-python/", kind: doc, tags: [c, f] }
   - { label: "AWS Strands", url: "https://strandsagents.com/", kind: doc, tags: [f] }
+  - { label: "Google — Maglev: A Fast and Reliable Software Network Load Balancer", url: "https://research.google/pubs/maglev-a-fast-and-reliable-software-network-load-balancer/", kind: doc, tags: [system-design, load-balancing] }
+  - { label: "Envoy Proxy docs", url: "https://www.envoyproxy.io/", kind: doc, tags: [system-design, load-balancing] }
+  - { label: "USENIX — Scaling Memcache at Facebook", url: "https://www.usenix.org/conference/nsdi13/technical-sessions/presentation/nishtala", kind: doc, tags: [system-design, caching-strategies] }
+  - { label: "Netflix/EVCache wiki", url: "https://github.com/Netflix/EVCache/wiki", kind: doc, tags: [system-design, caching-strategies] }
+  - { label: "Stripe — Scaling your API with rate limiters", url: "https://stripe.com/blog/rate-limiters", kind: doc, tags: [system-design, api-gateway-rate-limiting] }
+  - { label: "AWS — API Gateway request throttling", url: "https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-request-throttling.html", kind: doc, tags: [system-design, api-gateway-rate-limiting] }
+  - { label: "AWS Prescriptive Guidance — Understanding Retrieval Augmented Generation", url: "https://docs.aws.amazon.com/prescriptive-guidance/latest/retrieval-augmented-generation-options/what-is-rag.html", kind: doc, tags: [concepts, rag-pipeline-anatomy] }
+  - { label: "Vespa Blog — How Perplexity beat Google on AI Search", url: "https://blog.vespa.ai/perplexity-show-what-great-rag-takes/", kind: doc, tags: [concepts, rag-pipeline-anatomy] }
+  - { label: "Jason Liu — Fine-Tuning Embedding Models for Enterprise RAG: Lessons from Glean", url: "https://jxnl.co/writing/2025/03/06/fine-tuning-embedding-models-for-enterprise-rag-lessons-from-glean/", kind: doc, tags: [concepts, rag-pipeline-anatomy] }
+  - { label: "Snorkel AI — RAG Failure Modes and How to Fix Them", url: "https://snorkel.ai/blog/retrieval-augmented-generation-rag-failure-modes-and-how-to-fix-them/", kind: doc, tags: [concepts, rag-pipeline-anatomy] }
+  - { label: "Anthropic — Prompt engineering overview", url: "https://platform.claude.com/docs/en/docs/build-with-claude/prompt-engineering/overview", kind: doc, tags: [concepts, prompt-engineering] }
+  - { label: "Anthropic — Effective context engineering for AI agents", url: "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents", kind: doc, tags: [concepts, prompt-engineering] }
+  - { label: "OpenAI — Best practices for prompt engineering with the OpenAI API", url: "https://help.openai.com/en/articles/6654000-best-practices-for-prompt-engineering-with-the-openai-api", kind: doc, tags: [concepts, prompt-engineering] }
+  - { label: "OWASP GenAI Security — LLM01:2025 Prompt Injection", url: "https://genai.owasp.org/llmrisk/llm01-prompt-injection/", kind: doc, tags: [concepts, prompt-engineering] }
+  - { label: "PromptArmor — Data Exfiltration from Slack AI via Indirect Prompt Injection", url: "https://www.promptarmor.com/resources/data-exfiltration-from-slack-ai-via-indirect-prompt-injection", kind: doc, tags: [concepts, prompt-engineering] }
+  - { label: "Anthropic — Building Effective AI Agents", url: "https://www.anthropic.com/research/building-effective-agents", kind: doc, tags: [concepts, agent-harness] }
+  - { label: "Anthropic — Effective Harnesses for Long-Running Agents", url: "https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents", kind: doc, tags: [concepts, agent-harness] }
+  - { label: "Anthropic — Effective Context Engineering for AI Agents", url: "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents", kind: doc, tags: [concepts, agent-harness, context-window-budgeting] }
+  - { label: "Liu et al. — Lost in the Middle: How Language Models Use Long Contexts", url: "https://aclanthology.org/2024.tacl-1.9/", kind: doc, tags: [concepts, context-window-budgeting] }
+  - { label: "Anthropic — Context Editing (Claude Platform Docs)", url: "https://platform.claude.com/docs/en/build-with-claude/context-editing", kind: doc, tags: [concepts, context-window-budgeting] }
+  - { label: "Model Context Protocol Blog — The 2026-07-28 MCP Specification Release Candidate", url: "https://blog.modelcontextprotocol.io/posts/2026-07-28-release-candidate/", kind: doc, tags: [concepts, mcp-server-topology] }
+  - { label: "Cloudflare — Scaling MCP Adoption: Reference Architecture for Enterprise Deployments", url: "https://blog.cloudflare.com/enterprise-mcp/", kind: doc, tags: [concepts, mcp-server-topology] }
+  - { label: "Confluent — Apache Kafka Dead Letter Queue: A Comprehensive Guide", url: "https://www.confluent.io/learn/kafka-dead-letter-queue/", kind: doc, tags: [system-design, kafka, dlq] }
+  - { label: "Eugene Khyst — Spring Kafka Non-Blocking Retries and Dead Letter Topics", url: "https://github.com/eugene-khyst/spring-kafka-non-blocking-retries-and-dlt", kind: doc, tags: [system-design, kafka, dlq] }
+  - { label: "AWS — Using dead-letter queues in Amazon SQS", url: "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html", kind: doc, tags: [system-design, kafka, dlq] }
+  - { label: "Uber Engineering — Building Reliable Reprocessing and Dead Letter Queues with Kafka", url: "https://www.uber.com/en-IE/blog/reliable-reprocessing/", kind: doc, tags: [system-design, kafka, dlq] }
+  - { label: "Python docs — asyncio Event Loop", url: "https://docs.python.org/3/library/asyncio-eventloop.html", kind: doc, tags: [python, async] }
+  - { label: "Python docs — Coroutines and Tasks", url: "https://docs.python.org/3/library/asyncio-task.html", kind: doc, tags: [python, async] }
+  - { label: "Instagram Engineering — The Journey of asyncio Adoption in Instagram", url: "https://slideshare.net/jimmy_lai/the-journey-of-asyncio-adoption-in-instagram", kind: doc, tags: [python, async] }
+  - { label: "Techbuddies Studio — Case Study: Fixing FastAPI Event Loop Blocking in a High-Traffic API", url: "https://www.techbuddies.io/2026/01/10/case-study-fixing-fastapi-event-loop-blocking-in-a-high-traffic-api/", kind: doc, tags: [python, async] }
+  - { label: "Python docs — typing module", url: "https://docs.python.org/3/library/typing.html", kind: doc, tags: [python, typing] }
+  - { label: "Dropbox Tech — Our journey to type checking 4 million lines of Python", url: "https://dropbox.tech/application/our-journey-to-type-checking-4-million-lines-of-python", kind: doc, tags: [python, typing] }
+  - { label: "Microsoft — Pyright vs mypy comparison", url: "https://github.com/microsoft/pyright/blob/main/docs/mypy-comparison.md", kind: doc, tags: [python, typing] }

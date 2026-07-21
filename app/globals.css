@@ -59,3 +59,114 @@ body {
 .tabular-nums {
   font-variant-numeric: tabular-nums;
 }
+
+/* Deep-dive doc pages (concepts/python/system-design/qa) */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.pill::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.pill-cadence {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.pill-fresh {
+  background: var(--status-done-soft);
+  color: var(--status-done);
+}
+.pill-due {
+  background: var(--status-progress-soft);
+  color: var(--status-progress);
+}
+
+.doc-body {
+  color: var(--fg);
+  line-height: 1.7;
+  max-width: 68ch;
+}
+.doc-body h2 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 2.2em 0 0.6em;
+  scroll-margin-top: 90px;
+  text-wrap: balance;
+}
+.doc-body h2:first-child {
+  margin-top: 0;
+}
+.doc-body h3 {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin: 1.8em 0 0.5em;
+  scroll-margin-top: 90px;
+}
+.doc-body p,
+.doc-body li {
+  margin: 0 0 1em;
+}
+.doc-body ul,
+.doc-body ol {
+  padding-left: 1.3em;
+  margin: 0 0 1.2em;
+}
+.doc-body strong {
+  color: var(--fg);
+}
+.doc-body a {
+  color: var(--accent);
+  text-underline-offset: 2px;
+}
+.doc-body code {
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 0.9em;
+  background: var(--accent-soft);
+  padding: 0.1em 0.4em;
+  border-radius: 4px;
+}
+.doc-body pre {
+  overflow-x: auto;
+  border-radius: 10px;
+  padding: 1em;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+}
+.doc-body pre code {
+  background: none;
+  padding: 0;
+}
+
+.source-chip {
+  display: flex;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  background: var(--bg-raised);
+  text-decoration: none;
+  color: var(--fg);
+  font-size: 13px;
+  align-items: baseline;
+}
+.source-chip:hover {
+  border-color: var(--accent);
+}
+.source-chip .source-num {
+  font-variant-numeric: tabular-nums;
+  color: var(--fg-muted);
+  font-size: 12px;
+  flex-shrink: 0;
+}

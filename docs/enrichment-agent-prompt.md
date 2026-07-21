@@ -16,7 +16,10 @@ due again after 7 days, `stable` topics (system-design/*, classic infra) after
 
 Websearch for 3-5 canonical sources on that topic — official docs first, then
 a reputable engineering blog or case study, then a primary-source explanation
-of the core mechanism. Read them.
+of the core mechanism. For the primary/canonical sources (official docs, papers,
+vendor architecture writeups), fetch and read the actual page — don't write
+from search-result snippets alone; snippets are for finding candidates, not for
+citing mechanism details you haven't verified against the source itself.
 
 Write or update content/<section>/<slug>/index.mdx to the depth of
 content/system-design/kafka/index.mdx: the core concept explained cleanly,
@@ -30,6 +33,12 @@ Run `pnpm test && pnpm build`. If green, commit
 ("chore(enrich): deepen <section>/<slug>") and push. If either fails, revert
 your content edit (`git checkout -- content/<section>/<slug>`) and report what
 broke instead of pushing.
+
+Also run `pnpm check-links` before committing — it's not wired into `pnpm test`
+(network-dependent, would make CI flaky) but flags dead source URLs on demand.
+A 403/404 on a source you just added or reviewed is worth a second look before
+you commit; note known false positives (e.g. Medium blocks bot HEAD/GET and
+will 403 even on live pages) rather than treating every non-2xx as broken.
 
 Hard rule: only touch files under content/. Never edit app/, components/,
 lib/, or config — that's Rahul's application code.

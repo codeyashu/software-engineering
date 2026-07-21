@@ -9,7 +9,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "daily:pick": "tsx scripts/pick-today.ts",
-    "next-to-enrich": "tsx scripts/next-to-enrich.ts"
+    "next-to-enrich": "tsx scripts/next-to-enrich.ts",
+    "check-links": "tsx scripts/check-links.ts"
   },
   "keywords": [],
   "author": "",

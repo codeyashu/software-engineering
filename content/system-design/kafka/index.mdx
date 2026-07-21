@@ -89,6 +89,11 @@ acknowledged by enough of the ISR first (`acks=all`).
 
 ## Exceptions / failure modes
 
+- **Poison-pill messages blocking a partition** — a consumer that keeps retrying a record
+  it can never successfully process (bad payload, unrecognized schema) never advances its
+  offset, wedging every later message behind it in that partition. The standard
+  mitigation is non-blocking retry topics plus a dead-letter queue — see
+  [Kafka Dead-Letter Queue Patterns](/system-design/kafka-dlq) for the mechanism.
 - **Consumer-group rebalance storms** — when group membership changes (a consumer joins,
   leaves, or is considered dead by a missed heartbeat), Kafka reassigns partitions across
   the group. If consumers churn frequently (slow processing triggering session timeouts,

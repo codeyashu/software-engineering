@@ -37,5 +37,8 @@ export const groupByTrack = (ts: RoadmapTopic[]): Map<string, RoadmapTopic[]> =>
 
 export const trackProgress = (ts: RoadmapTopic[]) => {
   const done = ts.filter((t) => t.status === 'done').length;
-  return { done, total: ts.length, pct: ts.length === 0 ? 0 : Math.round((done / ts.length) * 100) };
+  const hoursTotal = Math.round(totalHours(ts) * 10) / 10;
+  const hoursLogged = Math.round(ts.reduce((n, t) => n + (t.timeSpentHrs || 0), 0) * 10) / 10;
+  const pct = hoursTotal === 0 ? 0 : Math.round((hoursLogged / hoursTotal) * 100);
+  return { done, total: ts.length, hoursTotal, hoursLogged, pct };
 };

@@ -14,6 +14,9 @@ export const RoadmapTopicSchema = z.object({
   docs: z.array(LinkSchema).optional(),
   videos: z.array(LinkSchema).optional(),
   guide: z.object({ section: z.string(), slug: z.string() }).optional(),
+  notes: z.string().optional(),
+  timeSpentHrs: z.number().nonnegative().optional(),
+  lastWorked: z.string().optional(),
 });
 export type RoadmapTopic = z.infer<typeof RoadmapTopicSchema>;
 
@@ -27,7 +30,9 @@ export const TrackMetaSchema = z.object({
 export type TrackMeta = z.infer<typeof TrackMetaSchema>;
 
 export const TracksFileSchema = z.object({ tracks: z.array(TrackMetaSchema) });
-export const PythonRoadmapFileSchema = z.object({ topics: z.array(RoadmapTopicSchema) });
+// Generic { topics: [...] } shape, shared by every flat (non-track) roadmap file:
+// roadmap/python.yaml, roadmap/system-design.yaml, etc.
+export const TopicsFileSchema = z.object({ topics: z.array(RoadmapTopicSchema) });
 
 export const QAItemSchema = z.object({
   id: z.string().min(1),

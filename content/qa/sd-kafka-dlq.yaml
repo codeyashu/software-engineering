@@ -1,0 +1,100 @@
+items:
+  - id: sd-dlq-1
+    question: "Kafka has no built-in DLQ primitive like SQS's redrive policy. What does that actually mean for who owns retry logic?"
+    answer: >
+      SQS's DLQ is infrastructure — a redrive policy and maxReceiveCount configured on
+      the queue itself, no application code required. Kafka has no equivalent (outside
+      Kafka Connect's errors.tolerance=all): a consumer only advances its offset after
+      it processes or explicitly gives up on a record, so "dead-lettering" is a pattern
+      the consumer application builds, not a knob it sets. That means retry-count
+      tracking, backoff, and DLQ publishing are all your code's responsibility —
+      Spring Kafka's DeadLetterPublishingRecoverer is a framework doing that work for
+      you, not Kafka doing it natively.
+    difficulty: 3
+    tags: [sd, kafka, dlq]
+  - id: sd-dlq-2
+    question: "Why does blocking retry (catch the exception, sleep, retry in place) wedge a whole partition, not just the failing record?"
+    answer: >
+      A consumer only commits an offset after successfully processing the record at
+      that offset, and consumption within a partition is strictly sequential. If a
+      consumer loops on retrying record N without committing, every record after N in
+      that partition queues up behind it — even ones that would process fine — because
+      the consumer can't skip ahead. A poison-pill message that can never succeed turns
+      this into a permanent partition stall, not a transient slowdown.
+    difficulty: 3
+    tags: [sd, kafka, dlq, failure-modes]
+  - id: sd-dlq-3
+    question: "Walk through why non-blocking retry uses separate retry-topic-N topics instead of just re-publishing to the same main topic."
+    answer: >
+      Re-publishing to the main topic would interleave retries with fresh traffic and
+      give no way to apply per-attempt backoff delay or track how many times a record
+      has been retried. Separate retry-topic-N topics (Spring Kafka names them e.g.
+      orders-group-retry-0) let each retry level have its own delay (1s, 2s, 4s
+      exponential backoff), its own consumer group, and its own lag metric — so a slow
+      or backed-up retry level never blocks the main topic's throughput, and you get
+      visibility into exactly which retry stage is absorbing failures.
+    difficulty: 4
+    tags: [sd, kafka, dlq, retry-topics]
+  - id: sd-dlq-4
+    question: "Spring Kafka's non-blocking retry pauses partition consumption 'without committing the offset' rather than sleeping the consumer thread. Why does that distinction matter?"
+    answer: >
+      Kafka expects consumers to send heartbeats and call poll() within
+      max.poll.interval.ms or the broker assumes the consumer is dead and triggers a
+      partition rebalance mid-retry — which would hand the partition to another
+      consumer while the original is still mid-backoff, causing duplicate processing
+      or a race. Pausing (not committing, but still polling/heartbeating) keeps the
+      consumer alive in the group's eyes while it waits out backoff, avoiding an
+      unwanted rebalance that a thread sleep would risk triggering.
+    difficulty: 4
+    tags: [sd, kafka, dlq, consumer-groups]
+  - id: sd-dlq-5
+    question: "Retry topics break the original partition's ordering guarantee. Why, and what does a consumer have to do about it?"
+    answer: >
+      A failed record moves to retry-topic-0, which almost certainly doesn't preserve
+      the same partition assignment as the main topic (different topic, its own
+      partitioning by key or round-robin) — so two records for the same key, one that
+      succeeded on first try and one that got retried, can now be processed
+      out of original order relative to each other. Uber's own writeup calls this out
+      explicitly: consumers using retry topics must tolerate out-of-order delivery and
+      be idempotent, because Kafka's ordering guarantee is per-partition only, and
+      retry topics are, by construction, a different partition assignment.
+    difficulty: 4
+    tags: [sd, kafka, dlq, ordering]
+  - id: sd-dlq-6
+    question: "A team ships a DLQ producer but nothing consumes it. Six months later there's an incident and the DLQ is checked for the first time. What's likely gone wrong, and what should have been built alongside the producer?"
+    answer: >
+      The DLQ has almost certainly been silently absorbing failures the whole time
+      with no alerting on arrival rate, and the topic's retention window has likely
+      already expired the oldest, most diagnostically useful messages by the time
+      anyone looks — so the evidence needed to root-cause the original failures may
+      already be gone. The DLQ producer side should never ship alone: replay/inspection
+      tooling (Uber built a dedicated CLI for this) and an arrival-rate alert are part
+      of the DLQ pattern, not optional follow-up work.
+    difficulty: 4
+    tags: [sd, kafka, dlq, incident]
+  - id: sd-dlq-7
+    question: "When would you deliberately choose a blocking retry with a circuit breaker over a DLQ + retry-topic pattern?"
+    answer: >
+      When strict per-key ordering can't be relaxed — e.g. sequential state-machine
+      transitions on a single entity, where processing a later event before an earlier
+      one produces a wrong state, not just a delay. Retry topics trade ordering for
+      throughput and resilience; if that trade is unacceptable, a blocking retry with a
+      circuit breaker (accept reduced throughput, maybe pause the whole partition
+      briefly) preserves ordering at the cost of the exact problem DLQs exist to avoid,
+      so it's a deliberate, narrow exception rather than a default.
+    difficulty: 5
+    tags: [sd, kafka, dlq, when-not-to-use]
+  - id: sd-dlq-8
+    question: "Kafka Connect has errors.tolerance=all + errors.deadletterqueue.topic.name as a config-level DLQ. Why doesn't the rest of the Kafka ecosystem work this way, and what do you lose without it?"
+    answer: >
+      Kafka Connect can offer DLQ as configuration because it owns the full
+      record-processing lifecycle inside a sink connector and can uniformly wrap every
+      record's processing in a try/catch that routes failures to a DLQ topic with
+      standardized error headers (exception class, message, stack trace). A hand-written
+      consumer has arbitrary custom processing logic Kafka can't generically wrap, so
+      the retry-count tracking, backoff, and DLQ publish have to be coded per
+      application (or delegated to a framework recoverer) — you lose the
+      "just a config knob" ergonomics and gain the flexibility of defining your own
+      notion of "failed" and your own retry policy.
+    difficulty: 4
+    tags: [sd, kafka, dlq, kafka-connect]

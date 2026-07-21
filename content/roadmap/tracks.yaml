@@ -488,6 +488,7 @@ tracks:
         priority: P2
         status: not-started
         prereqs: []
+        guide: { section: system-design, slug: caching-strategies }
       - id: prompt-agent-versioning
         title: "Prompt/agent versioning"
         complexity: 2

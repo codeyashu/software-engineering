@@ -1,0 +1,52 @@
+# Database internals & operations roadmap. Mirrors the shape of roadmap/system-design.yaml
+# so this stream gets the same RoadmapView/RoadmapSection treatment.
+topics:
+  - id: db-indexing
+    title: "Indexing strategies (B-tree vs hash vs GIN)"
+    complexity: 3
+    durationHrs: 3
+    priority: P1
+    status: not-started
+    prereqs: []
+  - id: db-query-planning
+    title: "Query planning & EXPLAIN ANALYZE"
+    complexity: 3
+    durationHrs: 2.5
+    priority: P1
+    status: not-started
+    prereqs: []
+  - id: db-normalization
+    title: "Normalization vs denormalization tradeoffs"
+    complexity: 2
+    durationHrs: 2
+    priority: P2
+    status: not-started
+    prereqs: []
+  - id: db-transactions
+    title: "Transactions & isolation levels"
+    complexity: 4
+    durationHrs: 3
+    priority: P1
+    status: not-started
+    prereqs: []
+  - id: db-replication
+    title: "Replication (sync vs async, failover)"
+    complexity: 3
+    durationHrs: 2.5
+    priority: P1
+    status: not-started
+    prereqs: []
+  - id: db-sharding
+    title: "Sharding & partitioning strategies"
+    complexity: 4
+    durationHrs: 3
+    priority: P2
+    status: not-started
+    prereqs: [db-replication]
+  - id: db-connection-pooling
+    title: "Connection pooling & pgbouncer patterns"
+    complexity: 2
+    durationHrs: 1.5
+    priority: P3
+    status: not-started
+    prereqs: []

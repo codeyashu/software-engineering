@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { RoadmapTopic } from '@/lib/schemas';
-import { trackProgress, totalHours } from '@/lib/roadmap';
+import { trackProgress } from '@/lib/roadmap';
 
 const STATUS_LABEL: Record<RoadmapTopic['status'], string> = {
   'not-started': 'Not started',
@@ -20,14 +20,14 @@ function StatusPill({ status }: { status: RoadmapTopic['status'] }) {
   const v = STATUS_VAR[status];
   if (status === 'not-started') {
     return (
-      <span className="rounded-full border border-[var(--border)] px-2 py-0.5 text-xs font-medium text-[var(--fg-muted)]">
+      <span className="whitespace-nowrap rounded-full border border-[var(--border)] px-2.5 py-0.5 text-[11px] font-medium text-[var(--fg-muted)]">
         {STATUS_LABEL[status]}
       </span>
     );
   }
   return (
     <span
-      className="rounded-full px-2 py-0.5 text-xs font-medium"
+      className="whitespace-nowrap rounded-full px-2.5 py-0.5 text-[11px] font-medium"
       style={{ background: `var(--status-${v}-soft)`, color: `var(--status-${v})` }}
     >
       {STATUS_LABEL[status]}
@@ -49,37 +49,72 @@ function ComplexityDots({ level }: { level: number }) {
   );
 }
 
-function TopicCard({ topic }: { topic: RoadmapTopic }) {
+function TopicRow({ topic }: { topic: RoadmapTopic }) {
+  const hasTime = topic.timeSpentHrs != null;
+  const timePct = hasTime ? Math.min(100, Math.round((topic.timeSpentHrs! / topic.durationHrs) * 100)) : 0;
+  const statusColor =
+    topic.status === 'not-started' ? 'var(--fg-muted)' : `var(--status-${STATUS_VAR[topic.status]})`;
+
   return (
-    <div className="flex flex-col gap-2 rounded-lg border border-[var(--border)] bg-[var(--bg-raised)] p-4">
-      <div className="flex items-start justify-between gap-2">
-        <h3 className="text-sm font-semibold leading-snug">{topic.title}</h3>
-        <span className="shrink-0 rounded-full bg-[var(--accent-soft)] px-2 py-0.5 text-xs font-medium text-[var(--accent)]">
-          {topic.priority}
-        </span>
-      </div>
-      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-[var(--fg-muted)]">
-        <ComplexityDots level={topic.complexity} />
-        <span className="tabular-nums">{topic.durationHrs}h</span>
-        <StatusPill status={topic.status} />
-      </div>
-      {topic.prereqs.length > 0 && (
-        <div className="flex flex-wrap gap-1">
-          {topic.prereqs.map((p) => (
-            <span key={p} className="rounded border border-[var(--border)] px-1.5 py-0.5 text-[11px] text-[var(--fg-muted)]">
-              {p}
+    <div className="grid grid-cols-[18px_1fr] gap-5 border-b border-[var(--border)] py-5 last:border-b-0 hover:bg-[var(--accent-soft)] sm:grid-cols-[18px_1fr_180px]">
+      <span className="mt-1.5 h-2 w-2 rounded-full" style={{ background: statusColor }} />
+
+      <div className="flex min-w-0 flex-col gap-1.5">
+        <h3 className="font-display text-base font-semibold leading-snug">{topic.title}</h3>
+        <div className="flex flex-wrap items-center gap-2.5 text-xs text-[var(--fg-muted)]">
+          <ComplexityDots level={topic.complexity} />
+          <span className="tabular-nums">{topic.durationHrs}h estimated</span>
+          {topic.prereqs.length > 0 && (
+            <span className="inline-flex flex-wrap gap-1">
+              {topic.prereqs.map((p) => (
+                <span key={p} className="rounded border border-[var(--border)] px-1.5 py-0.5 text-[10.5px]">
+                  {p}
+                </span>
+              ))}
             </span>
-          ))}
+          )}
         </div>
-      )}
-      {topic.guide && (
-        <Link
-          href={`/${topic.guide.section}/${topic.guide.slug}`}
-          className="mt-1 text-xs font-medium text-[var(--accent)] hover:underline"
-        >
-          Read the deep dive →
-        </Link>
-      )}
+        {topic.notes && (
+          <p className="mt-0.5 max-w-prose text-[13px] italic leading-relaxed text-[var(--fg-muted)]">
+            {topic.notes}
+          </p>
+        )}
+        {topic.guide && (
+          <Link
+            href={`/${topic.guide.section}/${topic.guide.slug}`}
+            className="mt-0.5 text-xs font-medium text-[var(--accent)] hover:underline"
+          >
+            Read the deep dive →
+          </Link>
+        )}
+      </div>
+
+      <div className="flex flex-row items-center gap-2 sm:flex-col sm:items-end sm:gap-1.5">
+        <div className="flex gap-1.5">
+          <span className="rounded-full bg-[var(--accent-soft)] px-2 py-0.5 text-[11px] font-semibold text-[var(--accent)]">
+            {topic.priority}
+          </span>
+          <StatusPill status={topic.status} />
+        </div>
+        {hasTime && (
+          <div className="flex w-full flex-col items-end gap-0.5 sm:w-full">
+            <span className="whitespace-nowrap text-[11px] tabular-nums text-[var(--fg-muted)]">
+              {topic.timeSpentHrs}h logged
+            </span>
+            {topic.lastWorked && (
+              <span className="whitespace-nowrap text-[11px] tabular-nums text-[var(--fg-muted)]">
+                last {topic.lastWorked}
+              </span>
+            )}
+            <div className="mt-0.5 h-[3px] w-full overflow-hidden rounded-full bg-[var(--border)]">
+              <div
+                className="ml-auto h-full rounded-full"
+                style={{ width: `${timePct}%`, background: 'var(--status-progress)' }}
+              />
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -104,7 +139,7 @@ export default function RoadmapSection({
 
   return (
     <section id={id} className="scroll-mt-24 border-b border-[var(--border)] py-10 first:pt-0 last:border-b-0">
-      <div className="mb-5 flex flex-wrap items-start justify-between gap-3">
+      <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
         <div>
           <h2 className="font-display text-xl font-semibold">{title}</h2>
           {exit && <p className="mt-1 max-w-2xl text-sm text-[var(--fg-muted)]">{exit}</p>}
@@ -116,16 +151,16 @@ export default function RoadmapSection({
             </span>
           )}
           <span className="tabular-nums">
-            {progress.done}/{progress.total} done · {totalHours(allTopics)}h
+            {progress.done}/{progress.total} done · {progress.hoursLogged}h / {progress.hoursTotal}h ({progress.pct}%)
           </span>
         </div>
       </div>
-      <div className="mb-6 h-1.5 w-full overflow-hidden rounded-full bg-[var(--border)]">
+      <div className="mb-4 h-[7px] w-full overflow-hidden rounded-full bg-[var(--border)]">
         <div className="h-full rounded-full bg-[var(--accent)]" style={{ width: `${progress.pct}%` }} />
       </div>
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      <div>
         {topics.map((t) => (
-          <TopicCard key={t.id} topic={t} />
+          <TopicRow key={t.id} topic={t} />
         ))}
       </div>
     </section>

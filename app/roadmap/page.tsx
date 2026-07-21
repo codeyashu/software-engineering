@@ -14,7 +14,7 @@ export default function RoadmapPage() {
   return (
     <RoadmapView
       title="Track Roadmap"
-      description="All 12 tracks, grouped by area — filterable and sortable within each."
+      description="All 12 tracks, grouped by area — filterable and sortable within each. Pacing/parking notes: docs/ai-roadmap-notes.md."
       sections={sections}
     />
   );

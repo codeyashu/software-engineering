@@ -1,0 +1,92 @@
+items:
+  - id: sd-lb-1
+    question: "L4 vs L7 load balancing — what can an L7 balancer do that an L4 one fundamentally can't, and what does that cost?"
+    answer: >
+      L4 balances on IP/port only, never reading payload, so it's fast and
+      protocol-agnostic but blind to HTTP semantics. L7 terminates the connection and
+      reads the request, enabling path/header/cookie-based routing, canary releases,
+      and content-based routing — but it costs a full protocol parse per request and
+      means the balancer itself becomes a TLS-terminating, HTTP-aware piece of
+      infrastructure with its own failure modes.
+    difficulty: 2
+    tags: [sd, load-balancing, l4-l7]
+  - id: sd-lb-2
+    question: "Why does consistent hashing matter for cache/shard affinity, and what specifically breaks without it?"
+    answer: >
+      Without consistent hashing, a plain modulo-based hash (key % N servers) remaps
+      almost every key when N changes — adding or removing one backend invalidates
+      nearly the whole cache/shard mapping at once, causing a stampede to the source of
+      truth. Consistent hashing maps servers and keys onto a ring so only the keys
+      adjacent to the changed server on the ring get remapped, keeping cache/shard
+      affinity stable across routine scaling events.
+    difficulty: 4
+    tags: [sd, load-balancing, consistent-hashing]
+  - id: sd-lb-3
+    question: "Server-side vs client-side service discovery — what's the actual tradeoff, not just the mechanism?"
+    answer: >
+      Server-side discovery (DNS, a centralized registry behind a gateway) keeps
+      clients simple — they hit one stable address — but adds a hop and a potential
+      bottleneck/SPOF at the registry-consuming tier. Client-side discovery (Netflix
+      Ribbon, a service-mesh sidecar) removes that hop and lets each caller make its own
+      load-balancing decision, but pushes registry-client logic and staleness handling
+      into every caller, and a caching client can keep sending traffic to an
+      instance that just died until its local view catches up.
+    difficulty: 4
+    tags: [sd, load-balancing, service-discovery]
+  - id: sd-lb-4
+    question: "A backend gets marked unhealthy and immediately every LB instance reroutes to the survivors, which then fall over too. What's this called and how do you prevent it?"
+    answer: >
+      Thundering herd on failover. Prevent it with gradual/slow-start reintroduction
+      of recovering backends (don't dump full traffic on them instantly), outlier
+      detection that ejects unhealthy backends probabilistically/gradually rather than
+      as a hard all-or-nothing cliff, and capacity headroom so the remaining backends
+      can absorb a redistributed share without cascading.
+    difficulty: 4
+    tags: [sd, load-balancing, failure-modes]
+  - id: sd-lb-5
+    question: "Why are sticky sessions usually considered an architecture smell rather than a legitimate load-balancing feature?"
+    answer: >
+      Sticky sessions break the core assumption that makes load balancing and failover
+      trivial — that any healthy backend can serve any request. They're almost always a
+      symptom of session state living in-process instead of a shared store (Redis, a
+      database). Once state moves out of the process, any backend can serve any
+      request again, and the load balancer regains full freedom to route and fail over.
+    difficulty: 3
+    tags: [sd, load-balancing, statelessness]
+  - id: sd-lb-6
+    question: "Health-check flapping: a backend bounces between healthy and unhealthy repeatedly. What causes it and what design choice reduces it?"
+    answer: >
+      A borderline backend (GC pause, transient CPU spike, brief network blip) can
+      fail then pass a single active probe repeatedly, causing repeated traffic
+      redistribution each time. Passive health checks derived from real request
+      outcomes, combined with hysteresis — requiring N consecutive failures/successes
+      before flipping declared state — smooth this out compared to a single active
+      probe with no debounce.
+    difficulty: 3
+    tags: [sd, load-balancing, health-checks]
+  - id: sd-lb-7
+    question: "Why would you choose 'power of two choices' over strict least-connections load balancing at scale?"
+    answer: >
+      Strict least-connections requires globally accurate, continuously synchronized
+      load state across all balancer instances, which is expensive coordination at
+      scale. Power of two choices samples just two random backends and picks the less
+      loaded of the two — it achieves near-optimal load spreading in practice without
+      needing global state, trading a small amount of optimality for a large reduction
+      in coordination cost.
+    difficulty: 4
+    tags: [sd, load-balancing, algorithms]
+  - id: sd-lb-8
+    question: "On call: p99 latency spikes hard every time autoscaling adds instances, then recovers after ~2 minutes. Backends are healthy. Walk through root cause and fix."
+    answer: >
+      Likely thundering herd on a cold pool plus health-check lag: new instances join
+      the registry and immediately receive a full traffic share before they're
+      actually warm (JIT/connection pools/caches cold), and/or the LB's health check
+      interval means several seconds of traffic hit an instance before its first
+      failing probe would have caught it. Root-caused by correlating the registry's
+      instance-added timestamp with the p99 spike window per-instance, not
+      aggregate. Fix: slow-start / gradual traffic ramp for newly registered
+      instances (weight ramps from near-zero to full over N seconds) instead of
+      100% from registration, plus a readiness check distinct from liveness so an
+      instance only joins rotation once it's actually warm.
+    difficulty: 5
+    tags: [sd, load-balancing, incident, autoscaling]
