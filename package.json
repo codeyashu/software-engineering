@@ -8,7 +8,8 @@
     "build": "next build",
     "test": "vitest run",
     "test:watch": "vitest",
-    "daily:pick": "tsx scripts/pick-today.ts"
+    "daily:pick": "tsx scripts/pick-today.ts",
+    "next-to-enrich": "tsx scripts/next-to-enrich.ts"
   },
   "keywords": [],
   "author": "",
