@@ -1,0 +1,9 @@
+items:
+  - { label: "DeepLearning.AI courses", url: "https://www.deeplearning.ai/courses/", kind: doc, tags: [interactive, foundations] }
+  - { label: "HuggingFace Agents Course", url: "https://huggingface.co/learn/agents-course", kind: doc, tags: [c, f, interactive] }
+  - { label: "LangGraph docs", url: "https://langchain-ai.github.io/langgraph/", kind: doc, tags: [f] }
+  - { label: "Pydantic AI docs", url: "https://ai.pydantic.dev/", kind: doc, tags: [c, f] }
+  - { label: "Google ADK 2.0 docs", url: "https://google.github.io/adk-docs/", kind: doc, tags: [f] }
+  - { label: "CrewAI docs", url: "https://docs.crewai.com/", kind: doc, tags: [f, multi-agent] }
+  - { label: "OpenAI Agents SDK", url: "https://openai.github.io/openai-agents-python/", kind: doc, tags: [c, f] }
+  - { label: "AWS Strands", url: "https://strandsagents.com/", kind: doc, tags: [f] }

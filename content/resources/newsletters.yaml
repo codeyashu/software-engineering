@@ -1,0 +1,7 @@
+items:
+  - { label: "Simon Willison's Weblog", url: "https://simonwillison.net/", kind: newsletter, tags: [l, practice, signal] }
+  - { label: "Lilian Weng — Lil'Log", url: "https://lilianweng.github.io/", kind: newsletter, tags: [c, f, theory] }
+  - { label: "Chip Huyen", url: "https://huyenchip.com/", kind: newsletter, tags: [h, i, production] }
+  - { label: "Hamel Husain", url: "https://hamel.dev/", kind: newsletter, tags: [b, evals] }
+  - { label: "Sourcegraph blog", url: "https://sourcegraph.com/blog", kind: newsletter, tags: [l, coding-agents] }
+  - { label: "Latent Space", url: "https://www.latent.space/", kind: newsletter, tags: [signal] }

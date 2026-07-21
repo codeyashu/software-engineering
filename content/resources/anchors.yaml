@@ -1,0 +1,7 @@
+items:
+  - { label: "Chip Huyen — AI Engineering (aie-book)", url: "https://github.com/chiphuyen/aie-book", kind: anchor, tags: [a, h, i] }
+  - { label: "Sebastian Raschka — Build a LLM from Scratch", url: "https://github.com/rasbt/LLMs-from-scratch", kind: anchor, tags: [a] }
+  - { label: "NirDiamant — RAG_Techniques (40 notebooks)", url: "https://github.com/NirDiamant/RAG_Techniques", kind: anchor, tags: [ce] }
+  - { label: "NirDiamant — GenAI_Agents (50+)", url: "https://github.com/NirDiamant/GenAI_Agents", kind: anchor, tags: [c, f] }
+  - { label: "NirDiamant — agents-towards-production", url: "https://github.com/NirDiamant/agents-towards-production", kind: anchor, tags: [h, l] }
+  - { label: "Lilian Weng — LLM Powered Autonomous Agents", url: "https://lilianweng.github.io/posts/2023-06-23-agent/", kind: anchor, tags: [c, f, theory] }
