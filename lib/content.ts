@@ -70,6 +70,28 @@ export function loadAdrs(): { slug: string; title: string; date: string; status:
     .sort((a, b) => a.slug.localeCompare(b.slug));
 }
 
+const ISO_DATE = /^\d{4}-\d{2}-\d{2}\.md$/;
+
+function readDailyFiles(): string[] {
+  try {
+    return readdirSync(join(CONTENT, 'daily'))
+      .filter((f) => ISO_DATE.test(f))
+      .sort();
+  } catch {
+    return []; // daily/ may not exist until the agent has run
+  }
+}
+
+export const dailyDates = (): string[] => readDailyFiles().map((f) => f.replace('.md', ''));
+
+export function loadLatestDaily(): { date: string; body: string } | null {
+  const files = readDailyFiles();
+  if (files.length === 0) return null;
+  const file = files[files.length - 1];
+  const { content } = matter(readFileSync(join(CONTENT, 'daily', file), 'utf8'));
+  return { date: file.replace('.md', ''), body: content };
+}
+
 export function loadSystemDesign(): { slug: string; frontmatter: Record<string, unknown>; body: string }[] {
   const dir = join(CONTENT, 'system-design');
   return readdirSync(dir)
