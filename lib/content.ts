@@ -30,12 +30,12 @@ export const loadPythonRoadmap = (): RoadmapTopic[] =>
   loadYaml('roadmap/python.yaml', PythonRoadmapFileSchema).topics;
 
 export const trackSlugs = (): string[] =>
-  readdirSync(join(CONTENT, 'tracks'))
-    .filter((f) => f.endsWith('.mdx'))
-    .map((f) => f.replace('.mdx', ''));
+  readdirSync(join(CONTENT, 'tracks'), { withFileTypes: true })
+    .filter((d) => d.isDirectory())
+    .map((d) => d.name);
 
 export function loadTrackMdx(slug: string): { frontmatter: Record<string, unknown>; body: string } {
-  const { data, content } = matter(readFileSync(join(CONTENT, 'tracks', `${slug}.mdx`), 'utf8'));
+  const { data, content } = matter(readFileSync(join(CONTENT, 'tracks', slug, 'index.mdx'), 'utf8'));
   return { frontmatter: data, body: content };
 }
 
