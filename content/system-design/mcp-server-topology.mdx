@@ -1,0 +1,27 @@
+---
+title: "MCP server topology"
+relatedTracks: [g, s]
+---
+
+MCP (Model Context Protocol) standardizes agent↔tool wiring: a server exposes tools (and
+optionally resources/prompts) over a defined transport; a client (an agent's runtime)
+discovers and calls them.
+
+```
+[Agent runtime] --(MCP client)--> [MCP server] --> [your actual tool/API/DB]
+                    ^ discovery + typed call + auth (OAuth/RBAC)
+```
+
+Design points (Track G):
+
+- **One server per bounded capability** — don't build one monolithic MCP server for
+  everything; expose a real, cohesive tool per server so auth and permissions can be
+  scoped per server.
+- **Auth is not optional in production** — OAuth/RBAC on the server means a compromised
+  or misbehaving agent can't silently escalate beyond its granted scope.
+- **A2A is a different layer** — agent-to-agent (A2A) protocols coordinate multiple
+  agents; MCP connects an agent to tools. They're complementary, not competing — a
+  multi-agent system (Track F) may use both simultaneously.
+- **Spec is moving** — the MCP spec had a scheduled breaking change (session removal)
+  around July 28, 2026; always confirm the current spec version before building (Track G,
+  Track S).

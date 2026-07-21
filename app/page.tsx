@@ -1,8 +1,9 @@
 import Link from 'next/link';
-import { loadTracks, dailyDates, loadLatestDaily } from '@/lib/content';
+import { loadTracks, dailyDates, loadLatestDaily, loadProjects } from '@/lib/content';
 import StreakBadge from '@/components/StreakBadge';
 import TodayCard from '@/components/TodayCard';
 import OverallProgress from '@/components/OverallProgress';
+import ProjectLedger from '@/components/ProjectLedger';
 
 export default function HomePage() {
   const tracks = loadTracks();
@@ -42,9 +43,10 @@ export default function HomePage() {
       <section id="projects" className="mt-8">
         <h2 className="text-lg font-bold">Project ledger</h2>
         <p className="mt-1 text-sm text-neutral-600">
-          Your &ldquo;target + evidence&rdquo; ledger lands in Task 11 — one row per track exit-criterion
-          with artifact + validation links.
+          The &ldquo;target + evidence&rdquo; habit (Track L) — one row per track exit-criterion with
+          artifact + validation links.
         </p>
+        <ProjectLedger projects={loadProjects()} />
       </section>
     </main>
   );

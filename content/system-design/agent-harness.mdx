@@ -1,0 +1,25 @@
+---
+title: "Agent harness"
+relatedTracks: [c, l, f]
+---
+
+An "agent harness" is the scaffolding around the raw LLM-in-a-loop: tools (typed,
+schema-described, validated), skills/instructions (what the agent is told to do and how),
+and guardrails (what it's not allowed to do, and what happens when it tries).
+
+Minimal shape:
+
+```
+loop:
+  observe (context: history + tool results)
+  decide (LLM call: plan next action or tool call)
+  act (validated tool call, or reflection step)
+  check (did the action's output satisfy the stated goal? — Track L)
+until goal met or budget exhausted
+```
+
+The harness is what turns "an LLM that can call functions" (Track C) into something you'd
+trust to touch a real repo unattended (Track L). The two things that separate a toy loop
+from a production harness: (1) validation + retry on typed output, so a malformed tool
+call doesn't cascade, and (2) a target+evidence habit — the agent doesn't just act, it
+proves the action worked before claiming done.

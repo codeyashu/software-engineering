@@ -1,0 +1,24 @@
+---
+title: "RAG pipeline anatomy"
+relatedTracks: [ce, i]
+---
+
+A retrieval-augmented generation pipeline, end to end:
+
+1. **Ingestion** — raw docs → cleaned text (corpus hygiene, Track I) → chunked (Track CE:
+   chunking strategies) → embedded → written to a vector store.
+2. **Query time** — user query → optionally rewritten/decomposed (Track CE: query rewrite)
+   → hybrid retrieval (BM25 + dense) → reranking → top-k chunks selected under a token
+   budget (this is where context-window budgeting, Track A, becomes concrete).
+3. **Assembly** — selected chunks + instructions + conversation memory are assembled into
+   the final prompt, with explicit choices about what's excluded (Track CE: context
+   assembly / instruction hygiene).
+4. **Generation + eval** — model generates from the assembled context; faithfulness/recall
+   are measured with a RAGAS-style eval (Track CE) so drift is caught with a number, not a
+   feeling.
+5. **Access control** — retrieval must respect who's allowed to see what (Track CE / H:
+   retrieval access control, row/user-level).
+
+The failure mode this anatomy exists to prevent: a pipeline that "works in the demo"
+because the corpus was small enough to fit whole, then silently drops relevant context
+once the corpus (or the conversation history) grows past the budget.

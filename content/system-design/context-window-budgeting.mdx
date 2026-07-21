@@ -1,0 +1,20 @@
+---
+title: "Context-window budgeting"
+relatedTracks: [a, ce]
+---
+
+Every call shares one fixed token budget across: system instructions, tool schemas,
+retrieved chunks, conversation history, and the model's own output allowance. Treat it
+like a budget, not a bag you throw things into:
+
+- **Fixed costs** — system prompt + tool schemas. Measure these once; they're paid on
+  every call.
+- **Variable costs** — retrieved context (Track CE) and conversation history (short-term
+  memory / compaction). These need an explicit cap, or they silently crowd out the output
+  allowance.
+- **Degradation, not just overflow** — "lost in the middle" (Track A) means quality drops
+  before you hit the hard ceiling. A budget that technically fits can still perform badly.
+
+Designing for this: cap retrieved-chunk token count explicitly, summarize/compact history
+once it crosses a threshold (Track CE: short-term memory / compaction), and put the
+highest-priority instructions at the start or end of the prompt, not buried in the middle.

@@ -1,0 +1,23 @@
+# "Target + evidence" ledger (Track L habit). One row per track exit-criterion:
+# artifactUrl = what was shipped, evidenceUrl = proof it works. Add rows as you
+# complete exit criteria; the daily agent may append rows but never edits ones
+# already status: done.
+projects:
+  - track: a
+    title: "Explain context limit, embeddings, hallucination cause — 5 lines each, unaided"
+    status: not-started
+  - track: l
+    title: "Point to one real change an agent made, with a validation artifact"
+    status: not-started
+  - track: b
+    title: "Build eval set, catch a prompt regression with a number"
+    status: not-started
+  - track: c
+    title: "Ship typed agent, 2 tools, refuses bad output"
+    status: not-started
+  - track: ce
+    title: "Build 2-3 context-engineering variants on 1 corpus, RAGAS numbers"
+    status: not-started
+  - track: g
+    title: "Build + call an MCP server exposing your own tool, with auth"
+    status: not-started
