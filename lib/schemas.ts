@@ -13,6 +13,7 @@ export const RoadmapTopicSchema = z.object({
   track: z.string().optional(),
   docs: z.array(LinkSchema).optional(),
   videos: z.array(LinkSchema).optional(),
+  guide: z.object({ section: z.string(), slug: z.string() }).optional(),
 });
 export type RoadmapTopic = z.infer<typeof RoadmapTopicSchema>;
 

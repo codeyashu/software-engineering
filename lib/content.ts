@@ -92,12 +92,26 @@ export function loadLatestDaily(): { date: string; body: string } | null {
   return { date: file.replace('.md', ''), body: content };
 }
 
-export function loadSystemDesign(): { slug: string; frontmatter: Record<string, unknown>; body: string }[] {
-  const dir = join(CONTENT, 'system-design');
-  return readdirSync(dir)
-    .filter((f) => f.endsWith('.mdx'))
-    .map((f) => {
-      const { data, content } = matter(readFileSync(join(dir, f), 'utf8'));
-      return { slug: f.replace('.mdx', ''), frontmatter: data, body: content };
+export function loadFolderDocs(section: string): { slug: string; frontmatter: Record<string, unknown>; body: string }[] {
+  const dir = join(CONTENT, section);
+  return readdirSync(dir, { withFileTypes: true })
+    .filter((d) => d.isDirectory())
+    .map((d) => {
+      const { data, content } = matter(readFileSync(join(dir, d.name, 'index.mdx'), 'utf8'));
+      return { slug: d.name, frontmatter: data, body: content };
     });
 }
+
+const folderSlugs = (section: string): string[] =>
+  readdirSync(join(CONTENT, section), { withFileTypes: true })
+    .filter((d) => d.isDirectory())
+    .map((d) => d.name);
+
+export const loadSystemDesign = () => loadFolderDocs('system-design');
+export const systemDesignSlugs = () => folderSlugs('system-design');
+
+export const loadConcepts = () => loadFolderDocs('concepts');
+export const conceptSlugs = () => folderSlugs('concepts');
+
+export const loadPythonGuides = () => loadFolderDocs('python');
+export const pythonGuideSlugs = () => folderSlugs('python');

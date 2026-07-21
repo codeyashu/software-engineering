@@ -1,0 +1,25 @@
+---
+title: "Prompt Engineering"
+cadence: fast
+lastReviewed: null
+sources: []
+relatedTracks: [b]
+---
+
+> _To be authored — see [`content/system-design/kafka/index.mdx`](/system-design/kafka) for
+> the depth pattern this page should match: core concept, diagram(s), 2-3 industry use
+> cases, failure modes/exceptions, sources. This is the top candidate for the next
+> enrichment sweep (`lastReviewed: null` always wins)._
+
+## Outline to expand
+
+- Structured prompting — role/instruction/context/output-format separation, why order
+  and repetition of key constraints matters
+- Few-shot / chain-of-thought — when examples beat instructions, when CoT helps vs. adds
+  noise/cost
+- System-prompt vs user-prompt boundary — what belongs in each, and why that boundary is
+  also a security boundary
+- Prompt injection surface — how untrusted content in the user/tool-result channel can
+  override system instructions, and the mitigations (see also [agent harness](/concepts/agent-harness))
+- Prompt versioning & regression testing — see [Track B](/tracks/b) exit criteria (eval
+  harness, catch a regression with a number)

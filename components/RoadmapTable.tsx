@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import Link from 'next/link';
 import { RoadmapTopic } from '@/lib/schemas';
 import { filterTopics, sortTopics, totalHours } from '@/lib/roadmap';
 
@@ -76,6 +77,7 @@ export default function RoadmapTable({ topics }: { topics: RoadmapTopic[] }) {
               Hours
             </th>
             <th className="py-2 pr-4">Status</th>
+            <th className="py-2 pr-4">Guide</th>
           </tr>
         </thead>
         <tbody>
@@ -86,6 +88,13 @@ export default function RoadmapTable({ topics }: { topics: RoadmapTopic[] }) {
               <td className="py-2 pr-4">{t.complexity}</td>
               <td className="py-2 pr-4">{t.durationHrs}</td>
               <td className="py-2 pr-4">{t.status}</td>
+              <td className="py-2 pr-4">
+                {t.guide && (
+                  <Link href={`/${t.guide.section}/${t.guide.slug}`} className="text-blue-600 hover:underline">
+                    Read the deep dive &rarr;
+                  </Link>
+                )}
+              </td>
             </tr>
           ))}
         </tbody>

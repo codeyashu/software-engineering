@@ -7,6 +7,7 @@ const LINKS = [
   { href: '/roadmap/python', label: 'Python' },
   { href: '/qa', label: 'Q&A' },
   { href: '/resources', label: 'Resources' },
+  { href: '/concepts', label: 'Concepts' },
   { href: '/system-design', label: 'System Design' },
   { href: '/adr', label: 'ADR' },
   { href: '/daily', label: 'Daily' },
