@@ -1,0 +1,13 @@
+tracks:
+  - id: a
+    title: "Track A — LLM Foundations"
+    priority: P1
+    exit: "Explain context limit, embeddings, hallucination cause — 5 lines each, unaided."
+    subtopics:
+      - id: ctx-window
+        title: "Context window limits + degradation behavior"
+        complexity: 3
+        durationHrs: 2
+        priority: P1
+        status: not-started
+        prereqs: []

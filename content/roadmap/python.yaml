@@ -1,0 +1,8 @@
+topics:
+  - id: py-venv
+    title: "Virtualenv & pip/uv project setup"
+    complexity: 1
+    durationHrs: 1
+    priority: P1
+    status: not-started
+    prereqs: []
