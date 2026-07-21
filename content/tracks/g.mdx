@@ -1,0 +1,39 @@
+---
+title: "Track G — Interop Protocols: MCP / A2A / AG-UI"
+trackId: g
+priority: P1
+exit: "Build + call an MCP server exposing your own tool, with auth."
+---
+
+> _To be authored — see [Track A](/tracks/a) for the pattern. Daily agent will fill this in._
+
+## What & why
+
+MCP is the emerging standard wiring for agent↔tool. Auth is expected in production now,
+not optional. Timing note: MCP spec had a scheduled breaking change (session removal)
+around July 28, 2026 — check the current spec version and build against the post-change
+spec to avoid an immediate rebuild.
+
+## What you must cover
+
+- Build 1 MCP server exposing a real tool
+- Build an MCP client
+- Add MCP auth (OAuth/RBAC) — expected in production now
+- Understand A2A vs MCP (agent-to-agent vs agent-to-tool — complementary)
+- (P4) AG-UI / A2UI generative UI _(parked unless building agent-facing UI)_
+
+## Interactive session
+
+_To be authored._
+
+## System design angle
+
+_To be authored — see [system design: MCP server topology](/system-design)._
+
+## Exit criteria
+
+- [ ] Build + call an MCP server exposing your own tool, with auth
+
+## Questions
+
+_Q&A bank for this track to be authored — see [Track A's](/qa/track-a) as the pattern._

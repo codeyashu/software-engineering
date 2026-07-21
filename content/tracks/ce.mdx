@@ -1,0 +1,46 @@
+---
+title: "Track CE — Context Engineering (merged RAG + Memory)"
+trackId: ce
+priority: P1
+exit: "Build 2-3 context-engineering variants on 1 corpus, RAGAS numbers to say which wins, articulate what was deliberately excluded from context and why."
+---
+
+> _To be authored — see [Track A](/tracks/a) for the pattern. Daily agent will fill this in._
+
+## What & why
+
+2026 reframe: retrieval is one of four pillars — instructions, retrieval, memory, tools.
+Hybrid+rerank is baseline hygiene, not the differentiator. The differentiator is
+deliberate context assembly: what you let in, what you keep out, and why.
+
+## What you must cover
+
+- Chunking strategies
+- Vector store basics
+- Hybrid retrieval (BM25 + dense) + reranking
+- RAGAS-style eval (faithfulness, recall)
+- Context assembly / instruction hygiene
+- Short-term memory / compaction under token limits
+- Long-term memory (cross-session recall)
+- Memory taxonomy (facts/preferences/entities/episodes/procedures)
+- (P2+) Query rewrite/decompose, contextual retrieval
+- (P3) GraphRAG / RAPTOR / Self-RAG / agentic RAG — pick one based on actual query shape
+- (P2) Retrieval access control (who can retrieve what)
+
+## Interactive session
+
+_To be authored._
+
+## System design angle
+
+_To be authored — see [system design: RAG pipeline anatomy](/system-design)._
+
+## Exit criteria
+
+- [ ] Build 2-3 context-engineering variants on 1 corpus
+- [ ] RAGAS numbers to say which wins
+- [ ] Articulate what was deliberately excluded from context and why
+
+## Questions
+
+_Q&A bank for this track to be authored — see [Track A's](/qa/track-a) as the pattern._

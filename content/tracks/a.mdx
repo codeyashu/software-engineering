@@ -1,0 +1,80 @@
+---
+title: "Track A — LLM Foundations"
+trackId: a
+priority: P1
+exit: "Explain context limit, embeddings, hallucination cause — 5 lines each, unaided."
+---
+
+## What & why
+
+Everything else in this curriculum — prompting, agents, RAG, evals — sits on top of a
+handful of mechanical facts about how LLMs actually work. Skip this track and every
+later track becomes cargo-culting: you'll copy patterns without knowing why they exist
+or when they break. This is the P1 foundation; do it first.
+
+## What you must cover
+
+**Context window limits + degradation behavior** (complexity 3, ~2h) — every model has a
+hard token ceiling, and quality degrades well before you hit it ("lost in the middle").
+Know the numbers for the models you actually use, and know that stuffing the window full
+is not free even when it fits.
+
+**Embeddings (cosine sim, vector clustering)** (complexity 3, ~3h) — text becomes a
+vector; distance in that vector space approximates semantic similarity. Cosine similarity
+is the standard metric. This is the substrate all of Track CE (retrieval) is built on.
+
+**Why hallucination is structural, not a bug** (complexity 2, ~1.5h) — an LLM is a next-token
+predictor trained to be plausible, not a database trained to be correct. There is no
+internal "I don't know" signal by default. This reframes every eval and guardrail
+decision in Tracks B and H.
+
+**Tokenization / BPE** (complexity 3, ~2h) — models don't see characters or words, they see
+subword tokens from a byte-pair-encoding vocabulary. This is why token counts (and cost)
+don't map cleanly onto word counts, and why odd inputs (rare words, non-English text,
+code) can silently blow up your budget.
+- Video: [Karpathy — Let's build the GPT Tokenizer](https://www.youtube.com/watch?v=zduSFxRajkE)
+
+**Temperature / sampling params** (complexity 2, ~1.5h) — temperature, top-p, top-k control
+how the next-token probability distribution gets sampled. Low temperature = deterministic
+and safe; high temperature = creative and unstable. Know which setting each use case wants.
+
+**Attention / transformer mechanics** (complexity 5, ~5h) — the actual mechanism: queries,
+keys, values, self-attention across the sequence, stacked into layers. This is the deepest
+subtopic here; budget real time for it.
+- Video: [3Blue1Brown — Attention in transformers, visually explained](https://www.youtube.com/watch?v=eMlx5fFNoYc)
+- Video: [Karpathy — Let's build GPT: from scratch, in code](https://www.youtube.com/watch?v=kCc8FmEb1nY)
+
+**(optional, P3) Full LLM build end-to-end** (complexity 5, ~15h) — only after the above are
+solid. Build a small GPT from scratch to cement the mechanics.
+- Repo: [Raschka — Build a LLM from Scratch](https://github.com/rasbt/LLMs-from-scratch)
+
+## Interactive session
+
+1. Tokenize the same sentence — including some non-English text and a code snippet — with
+   two or three different tokenizers. Chart token count per tokenizer. Notice how much it
+   varies, and what that means for cost estimates across providers.
+2. Pick 5 short sentences on related and unrelated topics. Embed them, compute pairwise
+   cosine similarity, and cluster them by hand from the similarity matrix. Confirm the
+   clusters match your intuition — and find one pair that doesn't, then explain why.
+
+## System design angle
+
+Context-window budgeting shows up directly in RAG pipeline design (Track CE): every
+retrieved chunk, every tool result, every turn of conversation history competes for the
+same fixed token budget. A system that doesn't explicitly account for this degrades
+silently under load — see [system design: context-window budgeting](/system-design).
+
+## Exit criteria
+
+- [ ] Explain context limit — 5 lines, unaided
+- [ ] Explain embeddings (cosine sim) — 5 lines, unaided
+- [ ] Explain hallucination cause — 5 lines, unaided
+
+Track progress against these using the checklist on this page, and drill them with the
+[Track A Q&A deck](/qa/track-a). Record your first shipped artifact for this track in the
+[project ledger](/#projects).
+
+## Questions
+
+See the [Track A interview Q&A bank](/qa/track-a) — context limits, embeddings, hallucination,
+tokenization, temperature, and attention, each with a model answer.

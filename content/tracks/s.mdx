@@ -1,0 +1,60 @@
+---
+title: "Track S — Java / Spring Boot AI"
+trackId: s
+priority: P4
+exit: "Ship a Spring AI app with a typed tool + memory + pgvector RAG + an MCP server exposing your tool, with auth."
+---
+
+> _To be authored — see [Track A](/tracks/a) for the pattern. Daily agent will fill this in._
+> Rahul is Python-primary, Java-warm — this track is "keep-updated" secondary. Do these rows
+> in parallel with Tracks C / CE / G when you want to build the concept in your JVM stack.
+
+## What & why
+
+If you ship on Java/Spring Boot you no longer need to leave your stack for AI work. Spring
+AI 2.0 hit GA June 12, 2026 — full MCP, tool calling, memory, vector stores, all native.
+Concepts transfer both ways with the Python tracks.
+
+## What you must cover
+
+- `ChatClient` — model-agnostic LLM calls (swap Ollama ⇄ frontier via config)
+- Tool calling via `@Tool` annotations
+- Structured output (POJO binding, validation)
+- `ChatMemory` — stateful conversation
+- `VectorStore` abstraction (pgvector backend — fits Postgres)
+- Advisors API (RAG, logging, guardrails as pluggable advisors)
+- MCP server via `@McpTool` annotations (`spring-ai-starter-mcp-server-webmvc`)
+- MCP client + MCP Security (OAuth/RBAC)
+- (compare) LangChain4j as the framework-agnostic alternative
+
+## Version warning (verbatim from spec)
+
+Spring AI ships fast; 1.0→1.1 broke APIs. Pin versions via the Spring AI BOM, read
+changelogs every upgrade. MCP spec breaking change ~July 28, 2026 (session removal) —
+build MCP servers against the post-change spec.
+
+## Java framework menu (verbatim from spec)
+
+- **Spring AI 2.0** — batteries-included, Micrometer observability
+- **LangChain4j** — framework-agnostic, faster cold-start on Quarkus/GraalVM
+- **Embabel** — Rod Johnson's goal-oriented agent framework, different execution model
+  (watch, don't necessarily adopt)
+
+## Interactive session
+
+_To be authored._
+
+## System design angle
+
+_To be authored — see [system design: MCP server topology](/system-design)._
+
+## Exit criteria
+
+- [ ] Spring AI app with a typed tool
+- [ ] + memory
+- [ ] + pgvector RAG
+- [ ] + an MCP server exposing your tool, with auth
+
+## Questions
+
+_Q&A bank for this track to be authored — see [Track A's](/qa/track-a) as the pattern._

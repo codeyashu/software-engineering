@@ -1,0 +1,47 @@
+---
+title: "Track F — Orchestration + Framework Selection"
+trackId: f
+priority: P2
+exit: "Same agent in 2 frameworks + written tradeoff ADR; eval trajectory, not just output."
+---
+
+> _To be authored — see [Track A](/tracks/a) for the pattern. Daily agent will fill this in._
+
+## What & why
+
+Build the raw agent loop by hand first, so you understand what every framework is
+abstracting. Then choose frameworks on merit, and write the tradeoff down as an ADR —
+that written choice is the career signal, not the framework count.
+
+## What you must cover
+
+- Raw agent loop (no framework) first
+- Graph-based state/nodes/edges
+- Persistence / checkpoint / resume
+- Human-in-the-loop gating
+- Multi-agent supervisor pattern _(parked until multi-agent need)_
+- Agent trajectory eval (not just output) _(parked until multi-agent need)_
+- Framework comparison, written tradeoff
+
+## Framework menu (2026, choose on merit)
+
+LangGraph · Pydantic AI · Google ADK 2.0 · CrewAI · OpenAI Agents SDK ·
+Microsoft Agent Framework (MAF) · Mastra (TypeScript) · AWS Strands.
+
+## Interactive session
+
+_To be authored._
+
+## System design angle
+
+_To be authored._
+
+## Exit criteria
+
+- [ ] Same agent in 2 frameworks
+- [ ] Written tradeoff ADR (see [/adr](/adr))
+- [ ] Eval trajectory, not just output
+
+## Questions
+
+_Q&A bank for this track to be authored — see [Track A's](/qa/track-a) as the pattern._
