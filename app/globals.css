@@ -1,2 +1,61 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
+
+:root {
+  --bg: #faf9f7;
+  --bg-raised: #ffffff;
+  --fg: #1c1a22;
+  --fg-muted: #6b6675;
+  --border: #e4e0da;
+  --accent: #5b5bd6;
+  --accent-fg: #ffffff;
+  --accent-soft: #ebebfb;
+
+  --status-done: #2f9e7a;
+  --status-done-soft: #e2f4ee;
+  --status-progress: #c98a1f;
+  --status-progress-soft: #fbf0dc;
+  --status-parked: #8a8592;
+  --status-parked-soft: #eeecef;
+  --status-notstarted: var(--fg-muted);
+
+  --font-display: var(--font-fraunces), Georgia, serif;
+  --font-body:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #15141a;
+    --bg-raised: #1e1c25;
+    --fg: #f1eef7;
+    --fg-muted: #9a94a8;
+    --border: #322f3c;
+    --accent: #8a8af0;
+    --accent-fg: #15141a;
+    --accent-soft: #26243a;
+
+    --status-done: #4dbb96;
+    --status-done-soft: #1c3129;
+    --status-progress: #e0a63d;
+    --status-progress-soft: #332815;
+    --status-parked: #9088a0;
+    --status-parked-soft: #26232f;
+    --status-notstarted: var(--fg-muted);
+  }
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+}
+
+.font-display {
+  font-family: var(--font-display);
+  text-wrap: balance;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}

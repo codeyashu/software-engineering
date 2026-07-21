@@ -23,3 +23,19 @@ export const sortTopics = (
 };
 
 export const totalHours = (ts: RoadmapTopic[]) => ts.reduce((n, t) => n + t.durationHrs, 0);
+
+export const groupByTrack = (ts: RoadmapTopic[]): Map<string, RoadmapTopic[]> => {
+  const groups = new Map<string, RoadmapTopic[]>();
+  for (const t of ts) {
+    const key = t.track ?? '';
+    const bucket = groups.get(key);
+    if (bucket) bucket.push(t);
+    else groups.set(key, [t]);
+  }
+  return groups;
+};
+
+export const trackProgress = (ts: RoadmapTopic[]) => {
+  const done = ts.filter((t) => t.status === 'done').length;
+  return { done, total: ts.length, pct: ts.length === 0 ? 0 : Math.round((done / ts.length) * 100) };
+};

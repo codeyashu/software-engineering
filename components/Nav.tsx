@@ -1,4 +1,7 @@
+'use client';
+
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const LINKS = [
   { href: '/', label: 'Dashboard' },
@@ -14,17 +17,30 @@ const LINKS = [
 ];
 
 export default function Nav() {
+  const pathname = usePathname();
+
   return (
-    <nav className="border-b bg-neutral-50">
-      <div className="mx-auto flex max-w-5xl flex-wrap items-center gap-x-4 gap-y-1 px-6 py-3 text-sm">
-        <Link href="/" className="mr-2 font-bold">
+    <nav className="border-b border-[var(--border)] bg-[var(--bg-raised)]">
+      <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-4 gap-y-1 px-6 py-3 text-sm">
+        <Link href="/" className="font-display mr-2 text-base font-semibold">
           AI Eng Hub
         </Link>
-        {LINKS.slice(1).map((l) => (
-          <Link key={l.href} href={l.href} className="text-neutral-600 hover:text-neutral-900">
-            {l.label}
-          </Link>
-        ))}
+        {LINKS.slice(1).map((l) => {
+          const isActive = l.href === '/' ? pathname === '/' : pathname.startsWith(l.href);
+          return (
+            <Link
+              key={l.href}
+              href={l.href}
+              className={
+                isActive
+                  ? 'font-medium text-[var(--accent)]'
+                  : 'text-[var(--fg-muted)] hover:text-[var(--fg)]'
+              }
+            >
+              {l.label}
+            </Link>
+          );
+        })}
       </div>
     </nav>
   );
