@@ -1,0 +1,116 @@
+items:
+  - id: a-ctx-1
+    question: "What is a context window, and why does it matter?"
+    answer: >
+      The context window is the maximum number of tokens a model can attend to at
+      once — prompt + retrieved content + conversation history + the generated
+      output all share it. It matters because it's a hard ceiling: exceed it and
+      content is truncated or the call fails. It's also a budget you spend, since
+      more tokens mean more cost and latency.
+    difficulty: 1
+    tags: [context, foundations]
+  - id: a-ctx-2
+    question: "What is 'lost in the middle' and what does it imply for prompt design?"
+    answer: >
+      Models attend most reliably to the start and end of a long context and can
+      miss information buried in the middle, so accuracy degrades before you hit
+      the hard token limit. Implication: put the most important instructions and
+      evidence near the beginning or end, and don't assume 'it fits, so it'll be
+      used.'
+    difficulty: 3
+    tags: [context, degradation]
+  - id: a-emb-1
+    question: "What is an embedding, and what does cosine similarity measure?"
+    answer: >
+      An embedding maps text to a fixed-length vector so that semantically similar
+      text lands near each other in vector space. Cosine similarity measures the
+      angle between two vectors (1 = same direction/very similar, 0 = orthogonal/
+      unrelated), which is the standard way to rank semantic closeness for retrieval.
+    difficulty: 2
+    tags: [embeddings, retrieval]
+  - id: a-emb-2
+    question: "Why is cosine similarity usually preferred over Euclidean distance for text embeddings?"
+    answer: >
+      Cosine similarity compares direction, not magnitude, so it's robust to vector
+      length differences that don't reflect meaning. Many embedding models are (or
+      are effectively) normalized, making cosine the natural metric; it keeps the
+      focus on 'what is this about' rather than 'how long/emphatic is it.'
+    difficulty: 3
+    tags: [embeddings]
+  - id: a-hall-1
+    question: "Why is hallucination structural rather than a bug to be patched?"
+    answer: >
+      An LLM is trained to predict the most plausible next token, not to retrieve
+      verified facts, and it has no built-in 'I don't know' signal. When it lacks
+      knowledge it still produces fluent, confident text because fluency is exactly
+      what it optimizes. So hallucination is a property of the objective, not a
+      defect you can simply fix — you manage it with grounding, retrieval, and evals.
+    difficulty: 2
+    tags: [hallucination, foundations]
+  - id: a-hall-2
+    question: "Name two mitigations for hallucination and what each actually does."
+    answer: >
+      (1) Retrieval/grounding (RAG): supply authoritative context so the model
+      predicts from evidence rather than parametric memory. (2) Evals + LLM-as-judge
+      /faithfulness scoring: measure how often output is unsupported so regressions
+      are caught with a number. Neither eliminates hallucination; they bound and
+      detect it.
+    difficulty: 3
+    tags: [hallucination, mitigation]
+  - id: a-tok-1
+    question: "What is tokenization / BPE, and why don't token counts equal word counts?"
+    answer: >
+      Byte-pair encoding builds a subword vocabulary by iteratively merging frequent
+      byte/character pairs; the model sees these subword tokens, not words or
+      characters. Common words may be one token while rare words, non-English text,
+      or code split into many — so token count (and cost) diverges from word count.
+    difficulty: 3
+    tags: [tokenization, cost]
+  - id: a-tok-2
+    question: "Why can non-English text or code cost more tokens than equivalent English prose?"
+    answer: >
+      BPE vocabularies are trained mostly on English-heavy corpora, so English words
+      compress into few tokens while other scripts, unusual symbols, and code
+      punctuation fragment into many more tokens. Same information, more tokens —
+      higher cost and faster context consumption.
+    difficulty: 3
+    tags: [tokenization, cost]
+  - id: a-temp-1
+    question: "What do temperature and top-p control, and when do you want low vs high?"
+    answer: >
+      Both reshape how the next-token distribution is sampled. Temperature scales the
+      distribution's sharpness (low = peaky/deterministic, high = flat/creative);
+      top-p (nucleus) samples from the smallest set of tokens whose probability sums
+      to p. Use low temperature for extraction, classification, and tool calling
+      where you want consistency; higher for brainstorming or creative writing.
+    difficulty: 2
+    tags: [sampling, params]
+  - id: a-attn-1
+    question: "Explain self-attention in one paragraph: queries, keys, values."
+    answer: >
+      Each token is projected into a query, a key, and a value vector. Attention
+      scores every token's query against every other token's key (scaled dot product),
+      softmaxes those scores into weights, and uses them to take a weighted sum of the
+      value vectors. The result is a representation of each token that is informed by
+      the other tokens it 'attends' to — this is how the model mixes context across
+      the sequence.
+    difficulty: 4
+    tags: [attention, transformers]
+  - id: a-attn-2
+    question: "Why do transformers need positional information, and how is it added?"
+    answer: >
+      Self-attention is permutation-invariant — on its own it can't tell token order.
+      Positional information (sinusoidal encodings, learned embeddings, or rotary
+      position embeddings/RoPE in modern models) is injected so the model knows where
+      each token sits in the sequence, which is essential for language.
+    difficulty: 4
+    tags: [attention, transformers]
+  - id: a-attn-3
+    question: "How does attention cost scale with sequence length, and why does that bound context windows?"
+    answer: >
+      Standard self-attention compares every token to every other token, so compute
+      and memory scale roughly O(n²) with sequence length n. That quadratic cost is a
+      major reason context windows are bounded and why long contexts are expensive —
+      it motivates techniques like sparse/flash attention and KV caching.
+    difficulty: 5
+    tags: [attention, scaling, context]

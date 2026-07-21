@@ -42,6 +42,11 @@ export function loadTrackMdx(slug: string): { frontmatter: Record<string, unknow
 export const loadQA = (topic: string): QAItem[] =>
   loadYaml(`qa/${topic}.yaml`, QAFileSchema).items;
 
+export const qaTopics = (): string[] =>
+  readdirSync(join(CONTENT, 'qa'))
+    .filter((f) => f.endsWith('.yaml'))
+    .map((f) => f.replace('.yaml', ''));
+
 export const loadResources = (kind: ResourceItem['kind']): ResourceItem[] =>
   loadYaml(`resources/${kind}s.yaml`, ResourcesFileSchema).items.filter((i) => i.kind === kind);
 
