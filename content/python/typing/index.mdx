@@ -1,0 +1,20 @@
+---
+title: "Typing (type hints, generics, mypy/pyright)"
+cadence: fast
+lastReviewed: null
+sources: []
+---
+
+> _To be authored — see [`content/system-design/kafka/index.mdx`](/system-design/kafka) for
+> the depth pattern this page should match: core concept, diagram(s), industry use cases,
+> failure modes/exceptions, sources._
+
+## Outline to expand
+
+- Why type hints in a dynamic language — catching bugs before runtime, better IDE/agent
+  tooling, documentation-as-code
+- `Protocol` vs `ABC` — structural vs nominal typing, when each fits
+- Generics (`TypeVar`, `Generic[T]`) — writing reusable typed containers/functions
+- Pydantic's relationship to typing — runtime validation built on type hints (relevant to
+  [Track C](/tracks/c)'s "typed output + validation")
+- mypy vs pyright — strictness defaults, CI integration

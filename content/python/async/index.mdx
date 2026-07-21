@@ -1,0 +1,20 @@
+---
+title: "Async (asyncio)"
+cadence: fast
+lastReviewed: null
+sources: []
+---
+
+> _To be authored — see [`content/system-design/kafka/index.mdx`](/system-design/kafka) for
+> the depth pattern this page should match: core concept, diagram(s), industry use cases,
+> failure modes/exceptions, sources._
+
+## Outline to expand
+
+- Event loop mental model — single-threaded cooperative concurrency, not parallelism
+- `async`/`await`, coroutines vs. regular functions
+- `asyncio.gather` vs `asyncio.TaskGroup` — structured concurrency and error propagation
+- Common pitfalls — blocking calls inside a coroutine silently stalling the event loop,
+  forgetting to `await`, fire-and-forget tasks getting garbage collected mid-flight
+- Where this matters for AI engineering — concurrent tool calls, streaming responses,
+  FastAPI request handling (see [Track C](/tracks/c), [Track S](/tracks/s))

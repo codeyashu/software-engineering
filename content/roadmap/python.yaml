@@ -36,6 +36,7 @@ topics:
     priority: P1
     status: not-started
     prereqs: [py-oop]
+    guide: { section: python, slug: typing }
   - id: py-error-handling
     title: "Error handling & context managers (try/except, with)"
     complexity: 2
@@ -50,6 +51,7 @@ topics:
     priority: P1
     status: not-started
     prereqs: [py-error-handling]
+    guide: { section: python, slug: async }
   - id: py-numpy
     title: "NumPy basics (arrays, broadcasting, vectorized ops)"
     complexity: 3
